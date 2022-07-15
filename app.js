@@ -110,7 +110,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => {
-    app.listen(process.env.PORT || 3000);
+    app.listen(process.env.port || 3000);
   })
   .catch(err => {
     const error = new Error(err);
