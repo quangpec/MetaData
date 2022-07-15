@@ -1,0 +1,33 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <%if(email){%>
+        <%if (resend){%>
+            <h2> Mã nhập vào không hợp lệ, chúng tôi đã gửi lại mã mới cho bạn vui lòng check mail để nhận mã xác thực mới </h2>
+            <%} else{%>
+         <h2> Kiểm tra mail để lấy mã xác thực </h2>
+            <%}%>
+            <form class="login-form" action="/accuracy" method="POST" novalidate>
+                <div class="form-control">
+                    <label for="otp">Mã xác thực</label>
+                    <input 
+                        type="text" 
+                        name="otp" 
+                        id="otp" 
+                    >
+                </div>
+                <input type="hidden" name = 'email' value="<%= email %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit">Xác nhận</button>
+             </form>
+             <%}else{%>
+                <h1> #404</h1>
+                <%}%>
+    </main>
+<%- include('../includes/end.ejs') %>

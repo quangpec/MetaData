@@ -1,0 +1,93 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <form class="project-form" action="/admin/<% if (editing) { %>edit-project<% } else { %>add-project<% } %>" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    value="<% if (editing || hasError) { %><%= project.title %><% } %>">
+            </div>
+            <!-- <div class="form-control">
+                <label for="imageUrl">Image URL</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="imageUrl" 
+                    id="imageUrl" 
+                    value="<% if (editing || hasError) { %><%= project.imageUrl %><% } %>">
+            </div> -->
+
+            <div class="form-control">
+                <label for="image">Image</label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image" >
+            </div>
+            <div class="form-control">
+                <label for="startDate">Ngày bắt đầu</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'startDate') ? 'invalid' : '' %>"
+                    type="date" 
+                    name="startDate" 
+                    id="startDate" 
+                    value="<% if (editing || hasError) { %><%= project.startDate.toISOString().slice(0, 10) %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="endDate">Ngày kết thúc</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'endDate') ? 'invalid' : '' %>"
+                    type="date" 
+                    name="endDate" 
+                    id="endDate" 
+                    value="<% if (editing || hasError) { %><%= project.endDate.toISOString().slice(0, 10) %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="target">Mục tiêu</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'target') ? 'invalid' : '' %>"
+                    type="number" 
+                    name="target" 
+                    id="target" 
+                    step="1000" 
+                    value="<% if (editing || hasError) { %><%= project.target %><% }%>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
+                    name="description" 
+                    id="description" 
+                    rows="5"><% if (editing || hasError) { %><%= project.description %><% } %></textarea>
+            </div>
+            <div class="form-control">
+                <label for="status">Trạng thái</label>
+                    <select name="status" id="status" style="width: 100%; height: 30px;">
+                        <option value="waiting" <%if(editing && project.status=='waiting'){ %> selected<%}%>>waiting</option>
+                        <option value="runing" <%if(editing && project.status=='runing'){ %> selected<%}%>>runing</option>
+                        <option value="stop" <%if(editing && project.status=='stop'){ %> selected<%}%>>stop</option>
+                    </select>
+                </div>
+            <% if (editing) { %>
+                <input type="hidden" value="<%= project._id %>" name="projectId">
+            <% } %>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit"><% if (editing) { %>Update Project<% } else { %>Add Project<% } %></button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

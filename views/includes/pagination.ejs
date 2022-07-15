@@ -1,0 +1,6 @@
+<section class="pagination">
+    <!--  -->
+    <a href="?page=<%=previousPage%>" <% if(previousPage<1){ %> class="disabled"  <%}%> > < </a>
+    <a href="?page=<%=page%>" class="active" style="pointer-events: none;"><%=page%></a>
+    <a href="?page=<%=nextPage%>" <% if(page>=lastPage){ %> class="disabled"  <%}%> > > </a>
+</section>
