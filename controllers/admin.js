@@ -4,7 +4,7 @@ const fileHelper = require('../util/file');
 const ITEMS_PER_PAGE =4;
 
 exports.getAddProject = (req, res, next) => {
-  res.render('admin/edit-Project', {
+  res.render('admin/edit-project', {
     pageTitle: 'Add Project',
     path: '/admin/add-Project',
     editing: false,
@@ -83,7 +83,6 @@ exports.postAddProject = (req, res, next) => {
 };
 
 exports.getEditProject = (req, res, next) => {
-  console.log('EDIT PROJECT')
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
