@@ -151,7 +151,11 @@ exports.postEditProject = (req, res, next) => {
       project.startDate = updateStdate;
       project.status = updateStatus;
       if (image) {
-        fileHelper.deleteFile(project.imageUrl);
+        try{
+          fileHelper.deleteFile(project.imageUrl);
+        }catch(err){
+          console.log(err)
+        }
         project.imageUrl = image.path;
       }
       return project.save().then(result => {
@@ -167,20 +171,20 @@ exports.postEditProject = (req, res, next) => {
 };
 
 exports.getProjects = (req, res, next) => {
+  const del = req.flash('delele')[0];
     const page = +req.query.page||1;
     let totalItems;
     Project.find()
       .countDocuments()
       .then(numProjects => {
-        console.log(numProjects);
         totalItems = numProjects;
         return Project.find()
           .skip((page - 1) * ITEMS_PER_PAGE)
           .limit(ITEMS_PER_PAGE);
       })
     .then(projects => {
-      console.log(projects);
       res.render('admin/projects', {
+        del: del,
         prods: projects,
         pageTitle: 'Admin Projects',
         path: '/admin/project',
@@ -207,12 +211,18 @@ exports.postDeleteProject = (req, res, next) => {
       if (!project) {
         return next(new Error('Project not found.'));
       }
+      try{
       fileHelper.deleteFile(project.imageUrl);
+      }
+      catch(err){
+        console.log('err');
+      }
       return Project.deleteOne({ _id: prodId});
     })
     .then(() => {
       console.log('DESTROYED PROJECT');
-      res.redirect('/admin/projects');
+      req.flash('delele','đã xóa thành công');
+      res.redirect('/admin/projects'); // cần chuyển về trang thông báo 
     })
     .catch(err => {
       const error = new Error(err);

@@ -1,12 +1,20 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/product.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     </head>
 
     <body>
         <%- include('../includes/navigation.ejs') %>
 
             <main>
-                <% if (prods.length > 0) { %>
+                <%if(del){%>
+                    <h1><%= del%></h1>
+                    <%}%>
+                <% if (prods.length> 0) { %>
                     <div class="grid">
                         <% for (let project of prods) { %>
                             <article class="card project-item">
@@ -29,18 +37,53 @@
                                 <div class="card__actions">
                                     <a href="/admin/edit-project/<%= project._id %>?edit=true" class="btn">Edit</a>
                                     <form action="/admin/delete-project" method="POST">
-                                        <input type="hidden" value="<%= project._id %>" name="projectId">
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button class="btn" type="submit">Delete</button>
+                                        <input type="hidden" value="<%= project._id %>" name="projectId">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#id<%=project._id%>">
+                                            DELETE
+                                        </button>
+                                        <div class="modal fade" id="id<%=project._id%>" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="false">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel"> Xóa chương trình
+                                                            quyên góp</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Bạn có muốn xóa <%= project.title%> không?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Xóa</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Không xóa</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
 
                                 </div>
                             </article>
                             <% } %>
                     </div>
-                    <%- include('../includes/pagination.ejs', {previousPage:previousPage,page:page,nextPage:nextPage,lastPage:lastPage}) %>
-                    <% } else { %>
-                        <h1>No Products Found!</h1>
-                        <% } %>
+                    <%- include('../includes/pagination.ejs',
+                        {previousPage:previousPage,page:page,nextPage:nextPage,lastPage:lastPage}) %>
+                        <% } else { %>
+                            <h1>No Products Found!</h1>
+                            <% } %>
+                                <!-- Button trigger modal -->
+
+
+                                <!-- Button trigger modal -->
+
+
+                                <!-- Modal -->
+
+
             </main>
             <%- include('../includes/end.ejs') %>
