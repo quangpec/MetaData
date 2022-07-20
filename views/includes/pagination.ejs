@@ -1,6 +1,18 @@
-<section class="pagination">
-    <!--  -->
-    <a href="?page=<%=previousPage%>" <% if(previousPage<1){ %> class="disabled"  <%}%> > < </a>
-    <a href="?page=<%=page%>" class="active" style="pointer-events: none;"><%=page%></a>
-    <a href="?page=<%=nextPage%>" <% if(page>=lastPage){ %> class="disabled"  <%}%> > > </a>
-</section>
+
+<nav aria-label="Page navigation example" style =" margin: auto; max-width: 400px">
+    <ul class="pagination">
+      <li <% if(previousPage<1){ %> class="page-item disabled"  <%}else{%> class="page-item"<%}%>>
+        <a class="page-link" href="?page=<%=previousPage%>" aria-label="Previous" >
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <%for( let i =1;i<=lastPage;i++){%>
+      <li <%if(i == page){%>class="page-item active" <%}else{%> class="page-item"<%}%>><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
+      <%}%>
+      <li class="page-item">
+        <a <%if(page == lastPage){%>class="page-link disabled"<%}else{%>class="page-link"<%}%> href="?page=<%=page+1%>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>

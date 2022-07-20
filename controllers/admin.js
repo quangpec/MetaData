@@ -1,7 +1,7 @@
 const Project = require('../models/project');
 const { validationResult } = require('express-validator');
 const fileHelper = require('../util/file');
-const ITEMS_PER_PAGE =4;
+const ITEMS_PER_PAGE =2;
 
 exports.getAddProject = (req, res, next) => {
   res.render('admin/edit-project', {
@@ -173,6 +173,7 @@ exports.postEditProject = (req, res, next) => {
 exports.getProjects = (req, res, next) => {
   const del = req.flash('delele')[0];
     const page = +req.query.page||1;
+    const stt = (page-1)*ITEMS_PER_PAGE;
     let totalItems;
     Project.find()
       .countDocuments()
@@ -195,7 +196,9 @@ exports.getProjects = (req, res, next) => {
         previousPage: page - 1,
         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
         page: page,
+        stt:stt
       });
+      req.flash('delele',null);
     })
     .catch(err => {
       const error = new Error(err);
@@ -203,7 +206,39 @@ exports.getProjects = (req, res, next) => {
       return next(error);
     });
 };
-
+exports.postDelManyProject = (req,res,next)=>{
+  const listId = req.body.listId;
+  if(!listId){
+    return res.redirect('/admin/projects'); // không thể xóa vì chưa chọn
+  }
+  console.log(listId);
+  const arrId = listId.split(',');
+  Project.find({'_id':arrId})
+    .then(projects => {
+      if (!projects) {
+        return next(new Error('Project not found.'));
+      }
+      try{
+        for(const project of projects){
+        fileHelper.deleteFile(project.imageUrl);
+        }
+        }
+        catch(err){
+          console.log('err');
+        }
+      return Project.deleteMany({ _id: arrId});
+    })
+    .then(() => {
+      console.log('DESTROYED PROJECT');
+      req.flash('delele','đã xóa thành công');
+      res.redirect('/admin/projects'); // cần chuyển về trang thông báo 
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
 exports.postDeleteProject = (req, res, next) => {
   const prodId = req.body.projectId;
   Project.findById(prodId)

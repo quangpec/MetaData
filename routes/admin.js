@@ -68,5 +68,5 @@ router.post('/edit-project',
     , isAuth,isAdmin, adminController.postEditProject);
 
 router.post('/delete-project', isAuth,isAdmin, adminController.postDeleteProject);
-
+router.post('/delete-manyproject',isAuth,isAdmin, adminController.postDelManyProject);
 module.exports = router;
