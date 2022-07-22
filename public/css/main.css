@@ -248,31 +248,6 @@ form {
   color: red;
 }
 
-.pagination {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-.pagination a {
-  text-decoration: none;
-  color: #00695c;
-  padding: 0.5rem;
-  border: 1px solid #00695c;
-  margin: 0 1rem;
-}
-
-.pagination a:hover,
-.pagination a.active,
-.pagination a:active {
-  background: #00695c;
-  color: white;
-}
-.pagination a.disabled{
-  background: #a5abaa;
-  color: rgba(210, 208, 208, 0.9);
-  pointer-events: none;
-}
-
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
@@ -286,3 +261,4 @@ form {
     width: 30rem;
   }
 }
+@import '~mdb-ui-kit/css/mdb.min.css'; 

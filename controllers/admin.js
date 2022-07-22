@@ -1,7 +1,14 @@
 const Project = require('../models/project');
 const { validationResult } = require('express-validator');
 const fileHelper = require('../util/file');
-const ITEMS_PER_PAGE =2;
+const ITEMS_PER_PAGE =5;
+
+exports.getFilter = (req,res,next)=>{
+  res.render('admin/filter', {
+    pageTitle: 'Bộ lọc tùy chỉnh',
+    path: '/admin/filter',
+  })
+}
 
 exports.getAddProject = (req, res, next) => {
   res.render('admin/edit-project', {
@@ -171,19 +178,54 @@ exports.postEditProject = (req, res, next) => {
 };
 
 exports.getProjects = (req, res, next) => {
+  const keyWord= req.query.keyWord||'';
+  const status = req.query.status||['waiting','runing','stop'];
+  const target = req.query.target||'';
+  const target_min = req.query.target_min||'';
+  const target_max = req.query.target_max||'';
+  var tgMin;
+  var tgMax; 
+
+    if(target ==''||target =="0"){
+      tgMin = 0;
+      tgMax = 100000000000;
+    } else if (target=="1"){
+      tgMin = 0;
+      tgMax = 100000000;
+    }else if (target=="2"){
+      tgMin = 100000000;
+      tgMax = 200000000;
+    }else if (target=="3"){
+      tgMin = 200000000;
+      tgMax = 500000000;
+    }else{
+      tgMin = 500000000;
+      tgMax = 100000000000;
+    }
+    if(target_min !== ''){
+        tgMin = +target_min+0;
+    }
+    if (target_max !== ''){
+      tgMax =+target_max+0;
+    }
+    console.log(target, tgMin ,tgMax);
+
+  const startDate = new Date(req.query.startDate||'2000-01-01');
+  const endDate = new Date(req.query.endDate|| '2100-01-01');
   const del = req.flash('delele')[0];
     const page = +req.query.page||1;
     const stt = (page-1)*ITEMS_PER_PAGE;
     let totalItems;
-    Project.find()
+    Project.find({$and:[{status: status}, {target: {$gte:tgMin , $lt: tgMax}} ,{startDate: {$gt:startDate}},{endDate: {$lt:endDate}},{  $or: [{title:{ $regex: keyWord , $options: 'i'}},{description:{ $regex: keyWord , $options: 'i'}}]}]})  
       .countDocuments()
       .then(numProjects => {
         totalItems = numProjects;
-        return Project.find()
+        return Project.find({$and:[{status: status}, {target: {$gte:tgMin , $lt: tgMax}} ,{startDate: {$gt:startDate}},{endDate: {$lt:endDate}},{  $or: [{title:{ $regex: keyWord , $options: 'i'}},{description:{ $regex: keyWord , $options: 'i'}}]}]}) 
           .skip((page - 1) * ITEMS_PER_PAGE)
           .limit(ITEMS_PER_PAGE);
       })
     .then(projects => {
+      console.log(projects);
       res.render('admin/projects', {
         del: del,
         prods: projects,

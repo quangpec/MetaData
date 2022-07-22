@@ -45,7 +45,7 @@
                     type="date" 
                     name="startDate" 
                     id="startDate" 
-                    value="<% if (editing || hasError) { %><%= project.startDate.toISOString().slice(0, 10) %><% } %>">
+                    value="<% if ((editing || hasError)&& project.startDate!=='') { %><%= project.startDate.toISOString().slice(0, 10) %><% } %>">
             </div>
             <div class="form-control">
                 <label for="endDate">Ngày kết thúc</label>
@@ -54,7 +54,7 @@
                     type="date" 
                     name="endDate" 
                     id="endDate" 
-                    value="<% if (editing || hasError) { %><%= project.endDate.toISOString().slice(0, 10) %><% } %>">
+                    value="<% if ((editing || hasError )&& project.endDate !=='') { %><%= project.endDate.toISOString().slice(0, 10) %><% } %>">
             </div>
             <div class="form-control">
                 <label for="target">Mục tiêu</label>

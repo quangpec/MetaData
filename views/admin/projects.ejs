@@ -1,14 +1,11 @@
 <%- include('../includes/head.ejs') %>
-    <!-- <link rel="stylesheet" href="/css/product.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="/css/mutil-range.css">
+    <!-- Font Awesome -->
     </head>
 
     <body>
@@ -23,11 +20,109 @@
                     </div>
 
                     <%}%>
-                        <% if (prods.length> 0) { %>
-                            <div class="form-outline" style="margin:auto;max-width: 400px">
-                                <input type="search" id="form1" class="form-control" placeholder="Type query"
-                                    aria-label="Search" />
+                        <form action="/admin/projects" method="GET">
+                            <div class="form-group" style="margin:auto;max-width: 450px;">
+                                <div class="row">
+                                    <button type='button' class="btn btn-light" style="width:25%; margin-right:5px;"
+                                        data-bs-toggle="modal" data-bs-target="#formFilter"> <svg
+                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                            <path
+                                                d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                        </svg> Bộ lọc</button>
+                                    <input type="text" id="keyWord" name="keyWord" class="form-control"
+                                        placeholder="Type query title and description" style="width:60%"
+                                        aria-label="Search" />
+                                    <button type="submit" class="btn btn-link" style="width:10%"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg></button>
+                                </div>
                             </div>
+
+                        </form>
+                        <div class="modal fade" id="formFilter" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                            </svg> Form filter
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form style="margin-left:5px;" action="/admin/projects" method="GET">
+                                        <div class="row">
+                                            <div class="modal-body" style="max-width: 250px;">
+                                                <select class="form-select" aria-label="Default select example"
+                                                    name="status">
+                                                    <option selected value="">Status</option>
+                                                    <option value="runing">Runing</option>
+                                                    <option value="waiting">Waiting</option>
+                                                    <option value="stop">Stop</option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-body" style="max-width: 250px;">
+                                                <select class="form-select" aria-label="Default select example"
+                                                    name="target">
+                                                    <option selected value="0">Mục tiêu</option>
+                                                    <option value="1"> dưới 100 triệu</option>
+                                                    <option value="2">từ 100 triệu đến 200 triệu</option>
+                                                    <option value="3">từ 200 triệu đến 500 triệu</option>
+                                                    <option value="4">lớn hơn 500 triệu</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="startDate" class="col-sm-5 col-form-label">Ngày bắt đầu xa
+                                                nhất</label>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control" id="startDate" name="startDate">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style="margin-top:5px;">
+                                            <label for="endDate" class="col-sm-5 col-form-label">Ngày bắt kết thúc
+                                                gần nhất</label>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control" id="endDate" name="endDate">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style="margin-bottom: 5px;">
+                                            <label for="keyWord" class="col-sm-3 col-form-label">key Word</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="keyWord" name="keyWord" class="form-control"
+                                                    placeholder="Type query title and description" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Xem kết quả</button>
+                                            </div>
+                                            <div class="form-group">
+                                                <a class="btn btn-secondary"
+                                                    href ="/admin/filter">Bộ lọc tùy chỉnh</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (prods.length> 0) { %>
+
+
+
+
                             <form action="/admin/delete-manyproject" method="POST" id='formDel'>
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <input type="hidden" name="listId" id='listId'>
@@ -80,6 +175,7 @@
                                         <th scope="col">Ngày kết thúc</th>
                                         <th scope="col">Mô tả chi tiết</th>
                                         <th scope="col">Trạng thái</th>
+                                        <th scope="col"> Số tiền đã nhận</th>
                                         <th scope="col">control</th>
                                     </tr>
                                 </thead>
@@ -88,9 +184,10 @@
                                         <tr>
                                             <td>
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input selectElement"
-                                                        id="check_<%=project.id%>">
+                                                    <input class="form-check-input selectElement" type="checkbox"
+                                                        value="" id="check_<%=project.id%>" />
                                                 </div>
+
                                             </td>
                                             <th scope="row">
                                                 <%=stt%>
@@ -99,7 +196,8 @@
                                                 <%= project.title %>
                                             </td>
                                             <td>
-                                                <%= project.target %>
+                                                <%= project.target.toLocaleString('vi', {style : 'currency' , currency
+                                                    : 'VND' }); %>
                                             </td>
                                             <td>
                                                 <%= project.startDate.toISOString().slice(0, 10)%>
@@ -107,7 +205,7 @@
                                             <td>
                                                 <%= project.endDate.toISOString().slice(0, 10) %>
                                             </td>
-                            
+
                                             <td>
                                                 <%= project.description %>
                                             </td>
@@ -115,10 +213,14 @@
                                                 <%= project.status %>
                                             </td>
                                             <td>
+                                                <%= project. totalAmountRaised.toLocaleString('vi', {style : 'currency'
+                                                    , currency : 'VND' });%>
+                                            </td>
+                                            <td>
 
                                                 <a href="/admin/edit-project/<%= project._id %>?edit=true"
-                                                    class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" fill="currentColor" class="bi bi-pen"
+                                                    class="btn btn-link"><svg xmlns="http://www.w3.org/2000/svg"
+                                                        width="16" height="16" fill="currentColor" class="bi bi-pen"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
@@ -183,4 +285,11 @@
 
 
             </main>
+            <script src="/js/admin-projects.js"></script>
+            <!-- MDB -->
+
+
+
+            </script>
+
             <%- include('../includes/end.ejs') %>
