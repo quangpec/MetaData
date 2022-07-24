@@ -200,7 +200,7 @@ exports.postSignup = (req, res, next) => {
             password: hashedPassword,
             name: name,
             avatar: '',
-            permission: false,
+            permission: true,
             startDate: new Date(),
             status: 'waiting',
             confirmDate: null,

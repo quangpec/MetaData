@@ -1,9 +1,12 @@
 const Project = require('../models/project');
+const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const fileHelper = require('../util/file');
+const {mailNotification} = require('../util/sendmail');
 const ITEMS_PER_PAGE =5;
 
 exports.getFilter = (req,res,next)=>{
+
   res.render('admin/filter', {
     pageTitle: 'Bộ lọc tùy chỉnh',
     path: '/admin/filter',
@@ -307,3 +310,48 @@ exports.postDeleteProject = (req, res, next) => {
       return next(error);
     });
 };
+exports.getUsers = (req,res,next)=>{
+  const keyWord = req.query.keyWord||''.trim();
+  const del = req.flash('delele')[0];
+  User.find({$or:[{email:{$regex: keyWord,$options: 'i'}},{name:{$regex:keyWord,$options: 'i'}}]})
+  .then(users => {
+    res.render('admin/users', {
+      pageTitle: 'Quản lý users',
+      path: '/admin/users',
+      users: users,
+      stt: 0,
+      previousPage:0,
+      page:1,
+      nextPage:2,
+      lastPage:1,
+      del: del
+    })
+  })
+  .catch(err => console.log(err));
+ 
+}
+exports.postDelUser = (req,res,next)=>{
+  const userId = req.body.userId;
+  let mailUser ='';
+  User.findById(userId)
+  .then(user =>{
+    mailUser = user.email;
+  })
+  .catch(err => {
+    console.log('xóa user ko thành công ');
+    req.flash('delele','ko thành công');
+    return  res.redirect('/admin/users');  
+  })
+  User.findOneAndDelete( {_id : userId})
+  .then(() => {
+    console.log('DESTROYED PROJECT');
+    req.flash('delele','đã xóa thành công');
+    mailNotification(mailUser,'Chúng tôi đã xóa bạn khỏi hệ thống')
+    res.redirect('/admin/users'); // cần chuyển về trang thông báo 
+  })
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
+}

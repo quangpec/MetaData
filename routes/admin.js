@@ -70,4 +70,6 @@ router.post('/edit-project',
 router.post('/delete-project', isAuth,isAdmin, adminController.postDeleteProject);
 router.post('/delete-manyproject',isAuth,isAdmin, adminController.postDelManyProject);
 router.get('/filter',isAuth,isAdmin, adminController.getFilter);
+router.get('/users',isAuth,isAdmin, adminController.getUsers);
+router.post('/delete-user',isAuth,isAdmin, adminController.postDelUser);
 module.exports = router;
