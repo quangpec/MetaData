@@ -17,17 +17,32 @@
                      Ví dụ: status=runing&target_min=0 & target_max = 100000000 & startDate = 2022-07-21 & endDate = 2022-08-06&keyWord=test
                     </button>
                 </div>
-                <form style="margin-left:5px;">
-                    <div class="form-group row" style="margin-bottom: 5px;">
-                        <label for="keyWord" class="col-sm-2 col-form-label"> URL = /admin/projects?</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="url" name="url" class="form-control"
+                <form  class="col-md-12">
+                    <div class="form-group row col-lg-9 col-sm-12" style="margin: auto;">
+                        <label for="text" class="col-4 col-form-label" style="text-align: right;"> URL = /admin/projects?</label>
+                        <div class="col-6 ">
+                            <input type="text" style="margin-bottom: 10px;" id="url" name="url" class="form-control"
                                 placeholder="biến_1='value 1'& biến_2='value 2'&" />
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-2">
                             <div class="form-group">
                                 <a class="btn btn-secondary" id = 'linkFilter'
-                                    data-bs-dismiss="modal" href="/admin/projects?" + >Xem kết quả</a>
+                                    data-bs-dismiss="modal" href="/admin/projects?" + >Lọc</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form style="margin:auto;">
+                    <div class="form-group row col-lg-9 col-sm-12" style="margin-bottom: 5px;margin: auto;">
+                        <label for="text" class="col-4  col-form-label" style="text-align: right;"> URL = /admin/users?</label>
+                        <div class="col-6">
+                            <input type="text" id="urlUser" name="urlUser" class="form-control"
+                                placeholder="biến_1='value 1'& biến_2='value 2'&" />
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <a class="btn btn-secondary" id = 'linkFilterUser'
+                                    data-bs-dismiss="modal" href="/admin/users?" + >Lọc</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +50,7 @@
 
         
             </main>
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script src="/js/admin-filter.js"></script>
             <!-- MDB -->
 

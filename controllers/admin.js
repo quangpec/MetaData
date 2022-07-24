@@ -233,7 +233,7 @@ exports.getProjects = (req, res, next) => {
         del: del,
         prods: projects,
         pageTitle: 'Admin Projects',
-        path: '/admin/project',
+        path: '/admin/projects',
         totalProjects: totalItems,
         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
         hasPreviousPage: page > 1,
@@ -312,8 +312,11 @@ exports.postDeleteProject = (req, res, next) => {
 };
 exports.getUsers = (req,res,next)=>{
   const keyWord = req.query.keyWord||''.trim();
+  const status = req.query.status||'';
+  const startDate = req.query.startDate||0;
+
   const del = req.flash('delele')[0];
-  User.find({$or:[{email:{$regex: keyWord,$options: 'i'}},{name:{$regex:keyWord,$options: 'i'}}]})
+  User.find({$and:[{status:{$regex: status,$options: 'i'}},{startDate: {$gte: startDate }},{$or:[{email:{$regex: keyWord,$options: 'i'}},{name:{$regex:keyWord,$options: 'i'}}]}]})
   .then(users => {
     res.render('admin/users', {
       pageTitle: 'Quản lý users',
