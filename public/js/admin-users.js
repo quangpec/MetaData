@@ -9,4 +9,16 @@ function selectAllFunc() {
       }
     }
   }
+  function delManyFunc(){
+    let listId = [];
+    for (var i =0; i<selectElement.length; i++) {
+     if(selectElement[i].checked){
+       const Id = selectElement[i].id.split("_");
+       listId.push(Id[1]);
+     } 
+    }
+    const strId = listId.toString();
+    document.getElementById("listId").value=strId;
+   }
+   delMany.addEventListener('click',delManyFunc);
   selectAll.addEventListener('click', selectAllFunc);

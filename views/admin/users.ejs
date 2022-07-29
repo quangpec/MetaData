@@ -1,10 +1,4 @@
 <%- include('../includes/head.ejs') %>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/mutil-range.css">
     <!-- Font Awesome -->
     </head>
 
@@ -19,228 +13,334 @@
                             </button>
                     </div>
                     <%}%>
-
-                        <form action="/admin/users" method="GET">
-                            <div class="form-group" style="margin:auto;max-width: 450px;">
-                                <div class="row">
-                                    <button type='button' class="btn btn-light" style="width:25%; margin-right:5px;"
-                                        data-bs-toggle="modal" data-bs-target="#formFilter"> <svg
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                        </svg> Bộ lọc</button>
-                                    <input type="text" id="keyWord" name="keyWord" class="form-control"
-                                        placeholder="Type query name and email" style="width:60%" aria-label="Search" />
-                                    <button type="submit" class="btn btn-link" style="width:10%"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path
-                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                        </svg></button>
-                                </div>
+                        <%if(upd){%>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="del">
+                                <strong>Cập nhật!</strong>
+                                <%=upd%>
+                                    </button>
                             </div>
+                            <%}%>
 
-                        </form>
-                        <div class="modal fade" id="formFilter" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="false">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                            </svg> Form filter
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                <form action="/admin/users" method="GET">
+                                    <div class="form-group" style="margin:auto;max-width: 450px;">
+                                        <div class="row">
+                                            <button type='button' class="btn btn-light"
+                                                style="width:25%; margin-right:5px;" data-bs-toggle="modal"
+                                                data-bs-target="#formFilter"> <svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="16" height="16" fill="currentColor" class="bi bi-filter"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                                </svg> Bộ lọc</button>
+                                            <input type="text" id="keyWord" name="keyWord" class="form-control"
+                                                placeholder="Type query name and email" style="width:60%"
+                                                aria-label="Search" />
+                                            <button type="submit" class="btn btn-link" style="width:10%"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                                </svg></button>
+                                        </div>
                                     </div>
-                                    <form style="margin-left:5%; margin-right:5%;" action="/admin/users" method="GET">
 
-                                        <div class="modal-body col-sm-12">
-                                            <select class="form-select col-sm-12" aria-label="Default select example"
-                                                name="status" style="padding-left: 0px;padding-right: 0px; ">
-                                                <option selected value="">Status</option>
-                                                <option value="verified">đang dùng</option>
-                                                <option value="waiting">Chưa kích hoạt</option>
-                                                <option value="block">bị chặn</option>
-                                            </select>
-
-
-
-                                            <div class="form-group row" style="margin-top:5px;">
-                                                <label for="startDate" class="col-sm-4 col-form-label">Start date
-                                                </label>
-                                                <div class="col-sm-8">
-                                                    <input type="date" class="form-control" id="startDate"
-                                                        name="startDate">
-                                                </div>
+                                </form>
+                                <div class="modal fade" id="formFilter" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-funnel-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
+                                                    </svg> Form filter
+                                                </h5>
+                                                <button type="button" class="btn close" data-bs-dismiss="modal"
+                                                    aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg"
+                                                        width="20" height="20" fill="currentColor" class="bi bi-x"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                    </svg></button>
                                             </div>
-                                            <div class="form-group row" style="margin-bottom: 5px; margin-top:5px;">
-                                                <label for="keyWord" class="col-sm-4 col-form-label">key Word</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" id="keyWord" name="keyWord" class="form-control"
-                                                        placeholder="Type query name and email" />
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <form style="margin-left:5%; margin-right:5%;" action="/admin/users"
+                                                method="GET">
 
-
-                                        <div class="modal-footer">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Xem kết quả</button>
-                                            </div>
-                                            <div class="form-group">
-                                                <a class="btn btn-secondary" href="/admin/filter">Bộ lọc tùy chỉnh</a>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <table class="table table-striped col-sm-12">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" class="form-check-input" id="selectAll">Chọn tất cả
-                                    </th>
-                                    <th scope="col">STT</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Ngày bắt đầu</th>
-
-
-                                    <th scope="col">Trạng thái</th>
-
-                                    <th scope="col">Xóa</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for (let user of users) { stt=stt+1; %>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input selectElement" type="checkbox" value=""
-                                                    id="check_<%=user.id%>" />
-                                            </div>
-
-                                        </td>
-                                        <th scope="row">
-                                            <%=stt%>
-                                        </th>
-                                        <td>
-                                            <%= user.name %>
-                                        </td>
-                                        <td>
-                                            <%= user.email %>
-                                        </td>
-
-                                        <td>
-                                            <%= user.startDate.toISOString().slice(0, 10)%>
-                                        </td>
+                                                <div class="modal-body form-group col-sm-12">
+                                                    <select class="form-control col-sm-12"
+                                                        aria-label="Default select example" name="status"
+                                                        style="padding-left: 0px;padding-right: 0px; ">
+                                                        <option selected value="">Status</option>
+                                                        <option value="verified">đang dùng</option>
+                                                        <option value="waiting">Chưa kích hoạt</option>
+                                                        <option value="block">bị chặn</option>
+                                                    </select>
 
 
 
-                                        <td>
-                                            <%= user.status %>
-                                                <form action="/admin/update-user" method="POST">
-                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                    <input type="hidden" value="<%= user._id %>" name="userId">
-                                                    <button type="button" class="btn btn-link" data-bs-toggle="modal"
-                                                        data-bs-target="#update<%=user._id%>"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
-                                                        </svg>
-                                                    </button>
-                                                    <div class="modal fade" id="update<%=user._id%>" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="false">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h6 class="modal-title" id="exampleModalLabel">Cập
-                                                                        nhật trạng thái
-                                                                        UserId <%=user._id%>
-                                                                    </h6>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body" style="margin: auto">
-                                                                    <div class="form-group row >
-                                                                        <label for="status"> Trạng thái</label>
-                                                                    <select class="form-select" style="max-width:300px"
-                                                                        aria-label="Default select example"
-                                                                        name="status"
-                                                                        style="padding-left: 0px;padding-right: 0px; ">
-                                                                        <option value="verified">đang dùng</option>
-                                                                        <option value="waiting">Chưa kích hoạt</option>
-                                                                        <option value="block">bị chặn</option>
-                                                                    </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Cập nhật</button>
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Hủy</button>
-                                                                </div>
-                                                            </div>
+                                                    <div class="form-group row" style="margin-top:5px;">
+                                                        <label for="startDate" class="col-sm-4 col-form-label">Start
+                                                            date
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="date" class="form-control" id="startDate"
+                                                                name="startDate">
                                                         </div>
                                                     </div>
-                                                </form>
-
-                                        </td>
-
-                                        <td>
-                                            <form action="/admin/delete-user" method="POST">
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                <input type="hidden" value="<%= user._id %>" name="userId">
-                                                <button type="button" class="btn btn-link" data-bs-toggle="modal"
-                                                    data-bs-target="#id<%=user._id%>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                                    </svg>
-                                                </button>
-                                                <div class="modal fade" id="id<%=user._id%>" tabindex="-1"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="false">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Xóa User
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Bạn có muốn xóa <%= user.name%> không?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Xóa</button>
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Không
-                                                                    xóa</button>
-                                                            </div>
+                                                    <div class="form-group row"
+                                                        style="margin-bottom: 5px; margin-top:5px;">
+                                                        <label for="keyWord" class="col-sm-4 col-form-label">key
+                                                            Word</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="keyWord" name="keyWord"
+                                                                class="form-control"
+                                                                placeholder="Type query name and email" />
                                                         </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="modal-footer">
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Xem kết quả</button>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <a class="btn btn-secondary" href="/admin/filter">Bộ lọc tùy
+                                                            chỉnh</a>
                                                     </div>
                                                 </div>
                                             </form>
-                                        </td>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    </tr>
-                                    <%}%>
-                            </tbody>
-                        </table>
-                        <%- include('../includes/pagination.ejs',
-                            {previousPage:previousPage,page:page,nextPage:nextPage,lastPage:lastPage}) %>
+                                <button type='button' class="btn btn-link" id='delMany' data-bs-toggle="modal"
+                                    data-bs-target="#delManyModal" title="Xóa">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                        <path fill-rule="evenodd"
+                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                    </svg>
+                                </button>
+                                <div class="modal fade" id="delManyModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/admin/delete-manyusers" method="POST" id='formDel'>
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <input type="hidden" name="listId" id='listId'>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"> Xóa
+                                                        chương trình
+                                                        quyên góp</h5>
+                                                    <button type="button" class="btn close" data-bs-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                            aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có muốn xóa các phần tử được chọn không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Xóa</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Không
+                                                        xóa</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type='button' class="btn btn-link" id='sendMails' data-bs-toggle="modal"
+                                    data-bs-target="#sendMails" title="gửi email">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-envelope" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                    </svg>
+                                </button>
+
+                                <table class="table table-striped col-sm-12">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                                    <label class="form-check-label" for="selectAll">
+                                                        Chọn tất cả
+                                                    </label>
+                                                </div>
+
+                                            </th>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Tên</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Ngày bắt đầu</th>
+
+
+                                            <th scope="col">Trạng thái</th>
+
+                                            <th scope="col">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let user of users) { stt=stt+1; %>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input selectElement" type="checkbox"
+                                                            value="" id="check_<%=user.id%>" />
+                                                    </div>
+
+                                                </td>
+                                                <th scope="row">
+                                                    <%=stt%>
+                                                </th>
+                                                <td>
+                                                    <%= user.name %>
+                                                </td>
+                                                <td>
+                                                    <%= user.email %>
+                                                </td>
+
+                                                <td>
+                                                    <%= user.startDate.toISOString().slice(0, 10)%>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <%= user.status %>
+                                                        <form action="/admin/update-user" method="POST">
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            <input type="hidden" value="<%= user._id %>" name="userId">
+                                                            <button type="button" class="btn btn-link"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#update<%=user._id%>"><svg
+                                                                    xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor" class="bi bi-pen"
+                                                                    viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                                                                </svg>
+                                                            </button>
+                                                            <div class="modal fade" id="update<%=user._id%>"
+                                                                tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="false">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h6 class="modal-title"
+                                                                                id="exampleModalLabel">Cập
+                                                                                nhật trạng thái
+                                                                                UserId <%=user._id%>
+                                                                            </h6>
+                                                                            <button type="button" class="btn close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close"><span
+                                                                                    aria-hidden="true">&times;</span></button>
+                                                                        </div>
+                                                                        <div class="modal-body" style="margin: auto">
+                                                                            <div class="form-group row >
+                                                                        <label for=" status"> Trạng thái</label>
+                                                                                <select class="form-select"
+                                                                                    style="max-width:300px"
+                                                                                    aria-label="Default select example"
+                                                                                    name="status"
+                                                                                    style="padding-left: 0px;padding-right: 0px; ">
+                                                                                    <option value="verified"
+                                                                                        <%if(user.status=="verified"
+                                                                                        ){%> selected<%}%>>đang dùng
+                                                                                    </option>
+                                                                                    <option value="waiting"
+                                                                                        <%if(user.status=="waiting" ){%>
+                                                                                        selected<%}%>>Chưa kích hoạt
+                                                                                    </option>
+                                                                                    <option value="block"
+                                                                                        <%if(user.status=="block" ){%>
+                                                                                        selected<%}%>>bị chặn</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <input class="form-check-input "
+                                                                                type="checkbox" name="sendmail"
+                                                                                id="sendmail" /> <label
+                                                                                for="sendmail">Gửi mail thông báo cho
+                                                                                user</label>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Cập
+                                                                                nhật</button>
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Hủy</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                </td>
+
+                                                <td>
+                                                    <form action="/admin/delete-user" method="POST">
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                        <input type="hidden" value="<%= user._id %>" name="userId">
+                                                        <button type="button" class="btn btn-link"
+                                                            data-bs-toggle="modal" data-bs-target="#id<%=user._id%>">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="bi bi-trash"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                                <path fill-rule="evenodd"
+                                                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                                            </svg>
+                                                        </button>
+                                                        <div class="modal fade" id="id<%=user._id%>" tabindex="-1"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="false">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Xóa User
+                                                                        </h5>
+                                                                        <button type="button" class="btn close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"><span
+                                                                                aria-hidden="true">&times;</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Bạn có muốn xóa <%= user.name%> không?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Xóa</button>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Không
+                                                                            xóa</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </td>
+
+                                            </tr>
+                                            <%}%>
+                                    </tbody>
+                                </table>
+                                <%- include('../includes/pagination.ejs',
+                                    {previousPage:previousPage,page:page,nextPage:nextPage,lastPage:lastPage}) %>
 
             </main>
             <script src="/js/admin-users.js"></script>

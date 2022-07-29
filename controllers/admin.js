@@ -2,21 +2,48 @@ const Project = require('../models/project');
 const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const fileHelper = require('../util/file');
-const {mailNotification} = require('../util/sendmail');
-const ITEMS_PER_PAGE =5;
+const { mailNotification } = require('../util/sendmail');
+const fs = require('fs');
+const ITEMS_PER_PAGE = 5;
 
-exports.getFilter = (req,res,next)=>{
+exports.getFilter = (req, res, next) => {
 
   res.render('admin/filter', {
     pageTitle: 'Bộ lọc tùy chỉnh',
     path: '/admin/filter',
   })
 }
+exports.postUploadfile = (req, res, next) => {
+  console.log(req.file);
 
+  // try {
+  //   fs.readFile(req.files.upload.path, function (err, data) {
+  //       var newPath = __dirname + '/public/images/' + req.files.upload.name;
+  //       fs.writeFile(newPath, data, function (err) {
+  //           if (err) console.log({err: err});
+  //           else {
+  //               console.log(req.files.upload.originalFilename);
+  //           //     imgl = '/images/req.files.upload.originalFilename';
+  //           //     let img = "<script>window.parent.CKEDITOR.tools.callFunction('','"+imgl+"','ok');</script>";
+  //           //    res.status(201).send(img);
+
+  let url = '/images/'+req.file.filename;
+  let msg = 'Upload successfully';
+  let funcNum = req.query.CKEditorFuncNum;
+  //               console.log({url,msg,funcNum});
+  res.status(201).send("<script>window.parent.CKEDITOR.tools.callFunction('" + funcNum + "','" + url + "','" + msg + "');</script>");
+  //           }
+  //       });
+  //   });
+  //  } catch (error) {
+  //      console.log(error.message);
+  //  }
+
+}
 exports.getAddProject = (req, res, next) => {
   res.render('admin/edit-project', {
     pageTitle: 'Add Project',
-    path: '/admin/add-Project',
+    path: '/admin/add-project',
     editing: false,
     hasError: false,
     errorMessage: null,
@@ -31,6 +58,7 @@ exports.postAddProject = (req, res, next) => {
   const description = req.body.description;
   const endDate = req.body.endDate;
   const startDate = req.body.startDate;
+  console.log(description);
   if (!image) {
     return res.status(422).render('admin/edit-project', {
       pageTitle: 'Add Project',
@@ -74,7 +102,7 @@ exports.postAddProject = (req, res, next) => {
     description: description,
     imageUrl: image.path,
     totalAmountRaised: 0,
-    status: 'waiting', 
+    status: 'waiting',
     endDate: endDate,
     startDate: startDate,
   });
@@ -89,7 +117,7 @@ exports.postAddProject = (req, res, next) => {
       error.httpStatusCode = 500;
       return next(error);
     });
-  
+
 };
 
 exports.getEditProject = (req, res, next) => {
@@ -161,9 +189,9 @@ exports.postEditProject = (req, res, next) => {
       project.startDate = updateStdate;
       project.status = updateStatus;
       if (image) {
-        try{
+        try {
           fileHelper.deleteFile(project.imageUrl);
-        }catch(err){
+        } catch (err) {
           console.log(err)
         }
         project.imageUrl = image.path;
@@ -181,52 +209,52 @@ exports.postEditProject = (req, res, next) => {
 };
 
 exports.getProjects = (req, res, next) => {
-  const keyWord= req.query.keyWord||'';
-  const status = req.query.status||['waiting','runing','stop'];
-  const target = req.query.target||'';
-  const target_min = req.query.target_min||'';
-  const target_max = req.query.target_max||'';
+  const keyWord = req.query.keyWord || '';
+  const status = req.query.status || ['waiting', 'runing', 'stop'];
+  const target = req.query.target || '';
+  const target_min = req.query.target_min || '';
+  const target_max = req.query.target_max || '';
   var tgMin;
-  var tgMax; 
+  var tgMax;
 
-    if(target ==''||target =="0"){
-      tgMin = 0;
-      tgMax = 100000000000;
-    } else if (target=="1"){
-      tgMin = 0;
-      tgMax = 100000000;
-    }else if (target=="2"){
-      tgMin = 100000000;
-      tgMax = 200000000;
-    }else if (target=="3"){
-      tgMin = 200000000;
-      tgMax = 500000000;
-    }else{
-      tgMin = 500000000;
-      tgMax = 100000000000;
-    }
-    if(target_min !== ''){
-        tgMin = +target_min+0;
-    }
-    if (target_max !== ''){
-      tgMax =+target_max+0;
-    }
-    console.log(target, tgMin ,tgMax);
+  if (target == '' || target == "0") {
+    tgMin = 0;
+    tgMax = 100000000000;
+  } else if (target == "1") {
+    tgMin = 0;
+    tgMax = 100000000;
+  } else if (target == "2") {
+    tgMin = 100000000;
+    tgMax = 200000000;
+  } else if (target == "3") {
+    tgMin = 200000000;
+    tgMax = 500000000;
+  } else {
+    tgMin = 500000000;
+    tgMax = 100000000000;
+  }
+  if (target_min !== '') {
+    tgMin = +target_min + 0;
+  }
+  if (target_max !== '') {
+    tgMax = +target_max + 0;
+  }
+  console.log(target, tgMin, tgMax);
 
-  const startDate = new Date(req.query.startDate||'2000-01-01');
-  const endDate = new Date(req.query.endDate|| '2100-01-01');
+  const startDate = new Date(req.query.startDate || '2000-01-01');
+  const endDate = new Date(req.query.endDate || '2100-01-01');
   const del = req.flash('delele')[0];
-    const page = +req.query.page||1;
-    const stt = (page-1)*ITEMS_PER_PAGE;
-    let totalItems;
-    Project.find({$and:[{status: status}, {target: {$gte:tgMin , $lt: tgMax}} ,{startDate: {$gt:startDate}},{endDate: {$lt:endDate}},{  $or: [{title:{ $regex: keyWord , $options: 'i'}},{description:{ $regex: keyWord , $options: 'i'}}]}]})  
-      .countDocuments()
-      .then(numProjects => {
-        totalItems = numProjects;
-        return Project.find({$and:[{status: status}, {target: {$gte:tgMin , $lt: tgMax}} ,{startDate: {$gt:startDate}},{endDate: {$lt:endDate}},{  $or: [{title:{ $regex: keyWord , $options: 'i'}},{description:{ $regex: keyWord , $options: 'i'}}]}]}) 
-          .skip((page - 1) * ITEMS_PER_PAGE)
-          .limit(ITEMS_PER_PAGE);
-      })
+  const page = +req.query.page || 1;
+  const stt = (page - 1) * ITEMS_PER_PAGE;
+  let totalItems;
+  Project.find({ $and: [{ status: status }, { target: { $gte: tgMin, $lt: tgMax } }, { startDate: { $gt: startDate } }, { endDate: { $lt: endDate } }, { $or: [{ title: { $regex: keyWord, $options: 'i' } }, { description: { $regex: keyWord, $options: 'i' } }] }] })
+    .countDocuments()
+    .then(numProjects => {
+      totalItems = numProjects;
+      return Project.find({ $and: [{ status: status }, { target: { $gte: tgMin, $lt: tgMax } }, { startDate: { $gt: startDate } }, { endDate: { $lt: endDate } }, { $or: [{ title: { $regex: keyWord, $options: 'i' } }, { description: { $regex: keyWord, $options: 'i' } }] }] })
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
     .then(projects => {
       console.log(projects);
       res.render('admin/projects', {
@@ -241,9 +269,9 @@ exports.getProjects = (req, res, next) => {
         previousPage: page - 1,
         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
         page: page,
-        stt:stt
+        stt: stt
       });
-      req.flash('delele',null);
+      req.flash('delele', null);
     })
     .catch(err => {
       const error = new Error(err);
@@ -251,31 +279,31 @@ exports.getProjects = (req, res, next) => {
       return next(error);
     });
 };
-exports.postDelManyProject = (req,res,next)=>{
+exports.postDelManyProject = (req, res, next) => {
   const listId = req.body.listId;
-  if(!listId){
+  if (!listId) {
     return res.redirect('/admin/projects'); // không thể xóa vì chưa chọn
   }
   console.log(listId);
   const arrId = listId.split(',');
-  Project.find({'_id':arrId})
+  Project.find({ '_id': arrId })
     .then(projects => {
       if (!projects) {
         return next(new Error('Project not found.'));
       }
-      try{
-        for(const project of projects){
-        fileHelper.deleteFile(project.imageUrl);
+      try {
+        for (const project of projects) {
+          fileHelper.deleteFile(project.imageUrl);
         }
-        }
-        catch(err){
-          console.log('err');
-        }
-      return Project.deleteMany({ _id: arrId});
+      }
+      catch (err) {
+        console.log('err');
+      }
+      return Project.deleteMany({ _id: arrId });
     })
     .then(() => {
       console.log('DESTROYED PROJECT');
-      req.flash('delele','đã xóa thành công');
+      req.flash('delele', 'đã xóa thành công');
       res.redirect('/admin/projects'); // cần chuyển về trang thông báo 
     })
     .catch(err => {
@@ -291,17 +319,17 @@ exports.postDeleteProject = (req, res, next) => {
       if (!project) {
         return next(new Error('Project not found.'));
       }
-      try{
-      fileHelper.deleteFile(project.imageUrl);
+      try {
+        fileHelper.deleteFile(project.imageUrl);
       }
-      catch(err){
+      catch (err) {
         console.log('err');
       }
-      return Project.deleteOne({ _id: prodId});
+      return Project.deleteOne({ _id: prodId });
     })
     .then(() => {
       console.log('DESTROYED PROJECT');
-      req.flash('delele','đã xóa thành công');
+      req.flash('delele', 'đã xóa thành công');
       res.redirect('/admin/projects'); // cần chuyển về trang thông báo 
     })
     .catch(err => {
@@ -310,51 +338,90 @@ exports.postDeleteProject = (req, res, next) => {
       return next(error);
     });
 };
-exports.getUsers = (req,res,next)=>{
-  const keyWord = req.query.keyWord||''.trim();
-  const status = req.query.status||'';
-  const startDate = req.query.startDate||0;
+exports.getUsers = (req, res, next) => {
+  const keyWord = req.query.keyWord || ''.trim();
+  const status = req.query.status || '';
+  const startDate = req.query.startDate || 0;
 
   const del = req.flash('delele')[0];
-  User.find({$and:[{status:{$regex: status,$options: 'i'}},{startDate: {$gte: startDate }},{$or:[{email:{$regex: keyWord,$options: 'i'}},{name:{$regex:keyWord,$options: 'i'}}]}]})
-  .then(users => {
-    res.render('admin/users', {
-      pageTitle: 'Quản lý users',
-      path: '/admin/users',
-      users: users,
-      stt: 0,
-      previousPage:0,
-      page:1,
-      nextPage:2,
-      lastPage:1,
-      del: del
+  const upd = req.flash('update')[0];
+  User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
+    .then(users => {
+      res.render('admin/users', {
+        pageTitle: 'Quản lý users',
+        path: '/admin/users',
+        users: users,
+        stt: 0,
+        previousPage: 0,
+        page: 1,
+        nextPage: 2,
+        lastPage: 1,
+        del: del,
+        upd: upd
+      })
     })
-  })
-  .catch(err => console.log(err));
- 
+    .catch(err => console.log(err));
+
 }
-exports.postDelUser = (req,res,next)=>{
+exports.postDelUser = (req, res, next) => {
   const userId = req.body.userId;
-  let mailUser ='';
+  let mailUser = '';
   User.findById(userId)
-  .then(user =>{
-    mailUser = user.email;
-  })
-  .catch(err => {
-    console.log('xóa user ko thành công ');
-    req.flash('delele','ko thành công');
-    return  res.redirect('/admin/users');  
-  })
-  User.findOneAndDelete( {_id : userId})
-  .then(() => {
-    console.log('DESTROYED PROJECT');
-    req.flash('delele','đã xóa thành công');
-    mailNotification(mailUser,'Chúng tôi đã xóa bạn khỏi hệ thống')
-    res.redirect('/admin/users'); // cần chuyển về trang thông báo 
-  })
-  .catch(err => {
-    const error = new Error(err);
-    error.httpStatusCode = 500;
-    return next(error);
-  });
+    .then(user => {
+      mailUser = user.email;
+    })
+    .catch(err => {
+      console.log('xóa user ko thành công ');
+      req.flash('delele', 'ko thành công');
+      return res.redirect('/admin/users');
+    })
+  User.findOneAndDelete({ _id: userId })
+    .then(() => {
+      console.log('DESTROYED PROJECT');
+      req.flash('delele', 'đã xóa thành công');
+      mailNotification(mailUser, 'Thông báo tài khoản của bạn bị xóa vào lúc ' + new Date() + ' trân trọng thông báo');
+      res.redirect('/admin/users'); // cần chuyển về trang thông báo 
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
+exports.postUpdateUser = async (req, res, next) => {
+  const status = req.body.status;
+  const userId = req.body.userId;
+  const sendmail = req.body.sendmail
+  const user = await User.findById(userId);
+  const mailUser = user.email;
+  user.status = status;
+  await user.save();
+  req.flash('update', 'Cập nhật user thành công');
+  mailNotification(mailUser, 'Thông báo trạng thái tài khoản của bạn được cập nhật vào lúc ' + new Date() + ' hiện trạng thái mới của tài khoản này là:' + status + ' trân trọng thông báo');
+  res.redirect('/admin/users');
+}
+exports.postdelManyusers = (req, res, next) => {
+  const listId = req.body.listId;
+  if (!listId) {
+    return res.redirect('/admin/users'); // không thể xóa vì chưa chọn
+  }
+  const arrId = listId.split(',');
+  User.find({ '_id': arrId })
+    .then(users => {
+      for (let user of users) {
+        mailNotification(user.email, 'Thông báo tài khoản của bạn bị xóa vào lúc ' + new Date() + ' trân trọng thông báo');
+      }
+      return User.deleteMany({ _id: arrId });
+    })
+    .then(() => {
+      console.log('DESTROYED PROJECT');
+      req.flash('delele', 'đã xóa thành công');
+      res.redirect('/admin/users'); // cần chuyển về trang thông báo 
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+
 }

@@ -1,3 +1,4 @@
+"use strict";
 const path = require('path');
 
 const express = require('express');
@@ -50,7 +51,7 @@ const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter  }).single('image'));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter  }).single('upload'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images',express.static(path.join(__dirname, 'images')));
 app.use(

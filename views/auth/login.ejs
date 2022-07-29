@@ -1,36 +1,35 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/auth.css">
-</head>
+    </head>
 
-<body>
-   <%- include('../includes/navigation.ejs') %>
+    <body>
+        <%- include('../includes/navigation.ejs') %>
 
-    <main>
-        <% if (errorMessage) { %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
-        <% } %>
-        <form class="login-form" action="/login" method="POST" novalidate>
-            <div class="form-control">
-                <label for="email">E-Mail</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
-                    type="email" 
-                    name="email" 
-                    id="email" 
-                    value="<%= oldInput.email %>">
-            </div>
-            <div class="form-control">
-                <label for="password">Password</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
-                    type="password" 
-                    name="password" 
-                    id="password" 
-                    value="<%= oldInput.password %>">
-            </div>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Login</button>
-        </form>
-    </main>
-<%- include('../includes/end.ejs') %>
+            <main>
+                <% if (errorMessage) { %>
+                    <div class="alert alert-danger">
+                        <%= errorMessage %>
+                    </div>
+                    <% } %>
+                        <div style="max-width:350px; margin: auto ">
+                            <form action="/login" method="POST" novalidate>
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" name="email" id="email" class="<%= validationErrors.find(e => e.param === 'email') ? 'form-control invalid' : 'form-control' %>"
+                                        aria-describedby="emailHelp" placeholder="Enter email" value="<%= oldInput.email %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Password</label>
+                                    <input type="password" name="password" id="password"
+                                    class="<%= validationErrors.find(e => e.param === 'password') ? ' form-control invalid' : 'form-control' %>"
+                                    value="<%= oldInput.password %>"
+                                        placeholder="Password">
+                                </div>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit"  class="btn btn-primary">Đăng nhập</button>
+                            </form>
+                             <a>Quên mật khẩu?</a>
+                        </div>
+            </main>
+            <%- include('../includes/end.ejs') %>

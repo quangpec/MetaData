@@ -1,6 +1,8 @@
 const path = require('path');
 
 const express = require('express');
+// const multipart = require('connect-multiparty');
+// const multipartMiddleware = multipart();
 
 const adminController = require('../controllers/admin');
 const isAuth = require('../middleware/is-auth');
@@ -72,4 +74,8 @@ router.post('/delete-manyproject',isAuth,isAdmin, adminController.postDelManyPro
 router.get('/filter',isAuth,isAdmin, adminController.getFilter);
 router.get('/users',isAuth,isAdmin, adminController.getUsers);
 router.post('/delete-user',isAuth,isAdmin, adminController.postDelUser);
+router.post('/update-user',isAuth,isAdmin, adminController.postUpdateUser);
+router.post('/delete-manyusers',isAuth,isAdmin, adminController.postdelManyusers);
+router.post('/uploadfile', isAuth,isAdmin, adminController.postUploadfile);
+
 module.exports = router;
