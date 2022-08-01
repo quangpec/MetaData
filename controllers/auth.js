@@ -270,7 +270,7 @@ exports.postresetPass = (req, res, next) => {
           currentDate = new Date();
           user.tokenResetpass.expires = new Date(currentDate.getTime() + 5 * 60000);
           user.save();
-          urlToken = 'http://localhost:3000/resetpass?email='+ email + '&token=' + token; // 
+          urlToken = 'https://myprojectnodejsx.herokuapp.com/resetpass?email='+ email + '&token=' + token; // 
           console.log(urlToken);
           mailResetpass(user, urlToken);
           req.flash('error','Kiểm tra email để lấy lại mật khẩu')
