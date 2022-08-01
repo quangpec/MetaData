@@ -1,15 +1,15 @@
 const express = require('express');
 const { check, body } = require('express-validator');
 const User = require('../models/user');
+const isLogin = require('../middleware/is-login')
 
 const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-router.get('/login', authController.getLogin);
-
-router.get('/signup', authController.getSignup);
-router.get('/accuracy',authController.getAccuracy);
+router.get('/login',isLogin, authController.getLogin);
+router.get('/signup',isLogin, authController.getSignup);
+router.get('/accuracy',isLogin,authController.getAccuracy);
 
 router.post(
   '/accuracy',
@@ -68,15 +68,14 @@ router.post(
     authController.postSignup
   );
   
-
 router.post('/logout', authController.postLogout);
 
-// router.get('/reset', authController.getReset);
-
-// router.post('/reset', authController.postReset);
-
-// router.get('/reset/:token', authController.getNewPassword);
-
-// router.post('/new-password', authController.postNewPassword);
-
+router.post('/resetpass',authController.postresetPass)
+router.get('/resetpass',authController.getresetPass)
+router.post('/newpass',[
+  body('password', 'mật khẩu ít nhất 5 kí tự, gồm chữ và số')
+      .isLength({min: 5})
+      .isAlphanumeric()
+      .trim(),
+],authController.postnewPass )
 module.exports = router;

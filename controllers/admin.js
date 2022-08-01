@@ -58,7 +58,6 @@ exports.postAddProject = (req, res, next) => {
   const description = req.body.description;
   const endDate = req.body.endDate;
   const startDate = req.body.startDate;
-  console.log(description);
   if (!image) {
     return res.status(422).render('admin/edit-project', {
       pageTitle: 'Add Project',
@@ -77,7 +76,6 @@ exports.postAddProject = (req, res, next) => {
     });
   }
   const errors = validationResult(req);
-  console.log(errors)
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-project', {
       pageTitle: 'Add Project',
@@ -239,8 +237,6 @@ exports.getProjects = (req, res, next) => {
   if (target_max !== '') {
     tgMax = +target_max + 0;
   }
-  console.log(target, tgMin, tgMax);
-
   const startDate = new Date(req.query.startDate || '2000-01-01');
   const endDate = new Date(req.query.endDate || '2100-01-01');
   const del = req.flash('delele')[0];
@@ -256,7 +252,6 @@ exports.getProjects = (req, res, next) => {
         .limit(ITEMS_PER_PAGE);
     })
     .then(projects => {
-      console.log(projects);
       res.render('admin/projects', {
         del: del,
         prods: projects,
@@ -284,7 +279,6 @@ exports.postDelManyProject = (req, res, next) => {
   if (!listId) {
     return res.redirect('/admin/projects'); // không thể xóa vì chưa chọn
   }
-  console.log(listId);
   const arrId = listId.split(',');
   Project.find({ '_id': arrId })
     .then(projects => {
@@ -391,13 +385,19 @@ exports.postDelUser = (req, res, next) => {
 exports.postUpdateUser = async (req, res, next) => {
   const status = req.body.status;
   const userId = req.body.userId;
-  const sendmail = req.body.sendmail
+  const sendmail = req.body.sendmail;
+  const permission = req.body.permission;
   const user = await User.findById(userId);
   const mailUser = user.email;
   user.status = status;
+  if (permission){
+    user.permission = true;
+  }
   await user.save();
   req.flash('update', 'Cập nhật user thành công');
+  if(sendmail){
   mailNotification(mailUser, 'Thông báo trạng thái tài khoản của bạn được cập nhật vào lúc ' + new Date() + ' hiện trạng thái mới của tài khoản này là:' + status + ' trân trọng thông báo');
+  }
   res.redirect('/admin/users');
 }
 exports.postdelManyusers = (req, res, next) => {

@@ -9,25 +9,28 @@
     <main>
         <%if(email){%>
         <%if (resend){%>
-            <h2> Mã nhập vào không hợp lệ, chúng tôi đã gửi lại mã mới cho bạn vui lòng check mail để nhận mã xác thực mới </h2>
+            <div class="alert alert-danger">Mã nhập vào không hợp lệ, chúng tôi đã gửi lại mã mới cho bạn vui lòng check mail để nhận mã xác thực mới </div>
             <%} else{%>
-         <h2> Kiểm tra mail để lấy mã xác thực </h2>
+                <div class="alert alert-danger">Kiểm tra mail để lấy mã xác thực </div>
             <%}%>
-            <form class="login-form" action="/accuracy" method="POST" novalidate>
-                <div class="form-control">
-                    <label for="otp">Mã xác thực</label>
-                    <input 
-                        type="text" 
-                        name="otp" 
-                        id="otp" 
-                    >
-                </div>
-                <input type="hidden" name = 'email' value="<%= email %>">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Xác nhận</button>
-             </form>
+            <div style ='max-width:350px; margin: auto'> 
+                <form action="/accuracy" method="POST" novalidate>
+                    <div class="form-group">
+                        <label for="otp">Mã xác thực</label>
+                        <input class="form-control"
+                            type="text" 
+                            name="otp" 
+                            id="otp" 
+                        >
+                    </div>
+                    <input type="hidden" name = 'email' value="<%= email %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn-primary" type="submit">Xác nhận</button>
+                 </form>
+            </div>
+            
              <%}else{%>
-                <h1> #404</h1>
+                <div class="alert alert-danger">#404 Lỗi truy cập không hợp lệ</div>
                 <%}%>
     </main>
 <%- include('../includes/end.ejs') %>

@@ -7,17 +7,13 @@
         <%- include('../includes/navigation.ejs') %>
 
             <main>
-                <% if (errorMessage) { %>
-                    <div class="alert alert-danger">
-                        <%= errorMessage %>
-                    </div>
-                    <% } %>
+              
                         <div style="max-width:350px; margin: auto ">
-                            <form action="/login" method="POST" novalidate>
+                            <form action="/newpass" method="POST" novalidate>
                                 <div class="form-group">
                                     <label for="email">Email address</label>
-                                    <input type="email" name="email" id="email" class="<%= validationErrors.find(e => e.param === 'email') ? 'form-control invalid' : 'form-control' %>"
-                                        aria-describedby="emailHelp" placeholder="Enter email" value="<%= oldInput.email %>">
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        aria-describedby="emailHelp" placeholder="Enter email" value="<%= email %>" readonly> 
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
@@ -26,46 +22,18 @@
                                     value="<%= oldInput.password %>"
                                         placeholder="Password">
                                 </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" name="confirmPassword" id="confirmPassword"
+                                    class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? ' form-control invalid' : 'form-control' %>"
+                                    value="<%= oldInput.password %>"
+                                        placeholder="Confirm Password">
+                                </div>
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button type="submit"  class="btn btn-primary btn-block">Đăng nhập</button>
+                                <button type="submit"  class="btn btn-primary btn-block">Xác nhận</button>
                             </form>
 
                             
-                                <!-- Simple link -->
-                                <button type='button' class="btn btn-link" id='delMany' data-bs-toggle="modal"
-                                    data-bs-target="#formRspass" title="Xóa">
-                                    Quên mật khẩu?
-                                </button>
-                                <div class="modal fade" id="formRspass" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="false">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form action="/resetpass" method="POST" id='formRes'>
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Lấy lại mật khẩu</h5>
-                                                    <button type="button" class="btn close" data-bs-dismiss="modal"
-                                                        aria-label="Close"><span
-                                                            aria-hidden="true">&times;</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="emailreset">Email address</label>
-                                                        <input type="emailreset" name="emailreset" id="emailreset" class="form-control"
-                                                            aria-describedby="emailHelp" placeholder="Enter email">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Lấy lại mật khẩu</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                
-                              
 
                              <div class="text-center form-group">
                                 <p>Not a member? <a href="/signup">Register</a></p>

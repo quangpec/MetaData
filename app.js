@@ -51,9 +51,9 @@ const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter  }).single('upload'));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('upload'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images',express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(
   session({
     secret: 'my secret',
@@ -66,6 +66,12 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
+  try{
+    res.locals.isAdmin = req.session.user.permission;
+  }
+  catch(err){
+    res.locals.isAdmin = false;
+  }
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
@@ -111,7 +117,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => {
-    app.listen(process.env.PORT|| 3000);
+    app.listen(process.env.PORT || 3000);
   })
   .catch(err => {
     const error = new Error(err);

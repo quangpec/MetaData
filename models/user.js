@@ -35,6 +35,14 @@ const userSchema = new Schema({
   },
   otp: {
     type: String
+  },
+  tokenResetpass:{
+    token:{
+      type: String
+    },
+    expires:{
+      type: Date
+    }
   }
 });
 

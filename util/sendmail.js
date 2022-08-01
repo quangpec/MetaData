@@ -12,8 +12,6 @@ const nodemailer = require("nodemailer");
     },
   });
   async function main(email,otp) {
- 
-
   // send mail with defined transport object
   let info = transporter.sendMail({
     from: 'quanglnFX13841@funix.edu.vn', // sender address
@@ -33,5 +31,15 @@ async function mailNotification(email,notification) {
   });
 
 }
+async function mailResetpass(user,urlToken ){
+  let info = transporter.sendMail({
+    from: 'quanglnFX13841@funix.edu.vn', // sender address
+    to: user.email, // list of receivers
+    subject: "Hướng dẫn lấy lại mật khẩu tài khoản abc.com", // Subject line
+    text: 'Xin chào'+ user.name + '! để lấy lại mật khẩu vui lòng truy cập vào link sau: <p><a href=' + urlToken + '>Đặt lại mật khẩu mới</a></p>', // plain text body
+    html: 'Xin chào'+ user.name + '! để lấy lại mật khẩu vui lòng truy cập vào link sau: <p><a href=' + urlToken + '>Đặt lại mật khẩu mới</a></p>', // html body
+  });
+}
   exports.sendmail =  main;
   exports.mailNotification= mailNotification;
+  exports.mailResetpass = mailResetpass;
