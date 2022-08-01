@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-var md5 = require('md5');
 const randomstring = require("randomstring");
 const { validationResult } = require('express-validator');
 const { sendmail, mailResetpass, mailNotification } = require('../util/sendmail');
