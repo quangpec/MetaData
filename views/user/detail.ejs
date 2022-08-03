@@ -4,7 +4,7 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main class="centered">
-            
+
             <h3><%= project.title %></h3>
             <div class="col-7">
                 <div>
@@ -14,7 +14,7 @@
                 <img src="/<%= project.imageUrl %>" alt="<%= project.title %>">
             </div>
             <h2><%= project.target %></h2>
-            <div><%= project.description %></div>
+            <div><%-project.description %></div>
                 </div>
 
             </div>
