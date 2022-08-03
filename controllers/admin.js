@@ -103,6 +103,7 @@ exports.postAddProject = (req, res, next) => {
     status: 'waiting',
     endDate: endDate,
     startDate: startDate,
+    luocQuyengop:0
   });
   project
     .save()
@@ -157,6 +158,7 @@ exports.postEditProject = (req, res, next) => {
   const updateStatus = req.body.status;
 
   const errors = validationResult(req);
+  console.log(errors);
 
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-project', {

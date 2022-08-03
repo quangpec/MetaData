@@ -47,7 +47,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
-//const shopRoutes = require('./routes/shop');
+const userRoutes = require('./routes/userAction');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -96,7 +96,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/admin', adminRoutes);
-//app.use(shopRoutes);
+app.use(userRoutes);
 app.use(authRoutes);
 
 app.get('/500', errorController.get500);

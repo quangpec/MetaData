@@ -201,14 +201,15 @@
                                             </td>
 
                                             <td scope="col"
-                                                style="max-width: 300px; height: 2.5em; text-overflow: ellipsis;overflow: hidden;">
-                                                <%= project.description %>
+                                                style="max-width: 300px; text-overflow: ellipsis;overflow: hidden;">
+                                                <%= project.description.substr(0,300) %>
+                                                <%if(project.description.length>300){%> ...(còn nữa) <%}%>
                                             </td>
                                             <td>
                                                 <%= project.status %>
                                             </td>
                                             <td>
-                                                <%= project. totalAmountRaised.toLocaleString('vi', {style : 'currency'
+                                                <%= project.totalAmountRaised.toLocaleString('vi', {style : 'currency'
                                                     , currency : 'VND' });%>
                                             </td>
                                             <td>

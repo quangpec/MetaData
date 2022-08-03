@@ -1,0 +1,25 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main class="centered">
+            
+            <h3><%= project.title %></h3>
+            <div class="col-7">
+                <div>
+                    
+            <hr>
+            <div class="image">
+                <img src="/<%= project.imageUrl %>" alt="<%= project.title %>">
+            </div>
+            <h2><%= project.target %></h2>
+            <div><%= project.description %></div>
+                </div>
+
+            </div>
+            <div class="col-3"></div>
+            
+
+        </main>
+        <%- include('../includes/end.ejs') %>

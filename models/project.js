@@ -34,7 +34,12 @@ const projectSchema = new Schema({
   totalAmountRaised:{
     type: Number,
     required:true
+  },
+  luotQuyengop:{
+    type: Number,
+    required:true
   }
+
 
 });
 

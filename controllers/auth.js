@@ -259,7 +259,7 @@ exports.postresetPass = (req, res, next) => {
     .then(users => {
       const user = users[0];
       const token = randomstring.generate({
-        length: 12,
+        length: 30,
         charset: 'alphabetic'
       });
 
@@ -270,7 +270,7 @@ exports.postresetPass = (req, res, next) => {
           currentDate = new Date();
           user.tokenResetpass.expires = new Date(currentDate.getTime() + 5 * 60000);
           user.save();
-          urlToken = 'https://myprojectnodejsx.herokuapp.com/resetpass?email='+ email + '&token=' + token; // 
+          urlToken = 'http://localhost:3000/resetpass?email='+ email + '&token=' + token; // 
           console.log(urlToken);
           mailResetpass(user, urlToken);
           req.flash('error','Kiểm tra email để lấy lại mật khẩu')
@@ -335,6 +335,8 @@ exports.getresetPass = (req, res, next) => {
               path: '/resetpass',
               pageTitle: 'Reset Pass',
               email: user.email,
+              token: token,
+              errorMessage: '',
               oldInput: {
                password: '',
              },
@@ -353,13 +355,27 @@ exports.getresetPass = (req, res, next) => {
   })
 }
 exports.postnewPass = (req,res,next) =>{
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword; 
+  const token = req.query.token;
   const email = req.body.email;
-  if(password != confirmPassword){
-    req.flash('error','Mật khẩu không trùng khớp vui lòng thử lại')
-    return res.redirect('/login');
+  const password = req.body.password;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    return res.status(422).render('auth/resetpass', {
+      path: '/resetpass',
+      pageTitle: 'Reset Pass',
+      email: email,
+      token: token,
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+       password: password,
+     },
+     validationErrors: errors.array()
+
+    })
   }
+  console.log(errors);
+
   User.findOne({email: email})
   .then(user=>{
     console.log(email);
@@ -374,7 +390,8 @@ exports.postnewPass = (req,res,next) =>{
       return user.save();
     })
     .then( result => {
-      mailNotification(user.email, ' Mật khuẩ của bạn đã được thay đổi');
+      mailNotification(user.email, ' Mật khẩu của bạn đã được thay đổi');
+      req.flash('error','');
       res.redirect('/login');
     })
   })
