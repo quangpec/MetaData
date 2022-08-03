@@ -103,7 +103,7 @@ exports.postAddProject = (req, res, next) => {
     status: 'waiting',
     endDate: endDate,
     startDate: startDate,
-    luocQuyengop:0
+    luotQuyengop:0
   });
   project
     .save()
