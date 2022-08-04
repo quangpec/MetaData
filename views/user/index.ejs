@@ -2,12 +2,12 @@
     <link rel="stylesheet" href="/css/card.css">
     </head>
 
-    <body>
+    <body style="background-color:#fdf2f8;">
         <%- include('../includes/navigation.ejs') %>
 
             <main>
                 <% if (projs.length> 0) { %>
-                    <div class="row" style="max-width:90%; margin:auto">
+                    <div class="row" style="max-width:90%; margin:auto; background-color:#fdf2f8; ">
                         <% for (let project of projs) { %>
                             <a href="/project/<%=project._id%>" style="text-decoration: none; margin: auto;">
                                 <div class="card mt-3" style="width: 20rem; border-radius: 0.5rem;">

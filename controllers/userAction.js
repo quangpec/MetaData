@@ -97,7 +97,8 @@ exports.getDetails =(req,res,next)=>{
     res.render('user/detail', {
       path: '/details',
       pageTitle: project.title,
-      project: project
+      project: project,
+      validationErrors: [],
       });
   })
 }
