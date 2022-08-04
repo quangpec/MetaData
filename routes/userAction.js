@@ -1,5 +1,4 @@
 const path = require('path');
-
 const express = require('express');
 
 const userController = require('../controllers/userAction');
@@ -9,6 +8,7 @@ const router = express.Router();
 
 router.get('/', userController.getIndex);
 router.get('/project/:projId',userController.getDetails);
+router.post('/quyengop',isAuth,userController.postQuyengop);
 
 // router.get('/products', shopController.getProducts);
 

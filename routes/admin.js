@@ -27,7 +27,7 @@ router.post(
         .trim(),
       body('target').isFloat(),
       body('description')
-        .isLength({ min: 5, max: 400 })
+        .isLength({ min: 5 })
         .trim(),
       body('endDate')
         .isDate()

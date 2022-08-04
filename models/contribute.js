@@ -1,6 +1,6 @@
-import { Schema as _Schema, model } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const Schema = _Schema;
 
 const contributeSchema = new Schema({
     userId: {
@@ -22,9 +22,9 @@ const contributeSchema = new Schema({
       required:true
     },
     conDate:{
-      type: String,
+      type: Date,
       required:true
     }
 });
+module.exports = mongoose.model('Contribute', contributeSchema);
 
-export default model('Contribute', contributeSchema);

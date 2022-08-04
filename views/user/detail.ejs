@@ -44,7 +44,7 @@
                                 <div class="m-1"
                                     style="width:100%; height: 0.2rem; background-color: #b2bdc6d5; border-radius:0.2em;">
                                     <div
-                                        style=" width:<%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem; background-color: #a50064;; border-radius:0.2em;">
+                                        style=" max-width:100%; width:<%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem; background-color: #a50064;; border-radius:0.2em;">
                                     </div>
                                 </div>
                                 <div class="row m-1">
@@ -65,28 +65,35 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contributionAmount">Số tiền</label>
-                                    <input type="number" name="contributionAmount" id="contributionAmount"
-                                        class="<%= validationErrors.find(e => e.param === 'contributionAmount') ? ' form-control invalid' : 'form-control' %>"
-                                         placeholder="<%=(1000000).toLocaleString('vi', {style : 'currency' , currency : 'VND' }) %>" value="<%=(1000000).toLocaleString('vi', {style : 'currency' , currency: 'VND' }) %>"
-                                        style="color:#a50064; border-color: #a50064; border-radius:0.2em;">
-                                </div>
-                                <div class="form-group">
-                                    <label for="message"> Lời nhắn gửi</label>
-                                    <input type="text" name="message" id="message"
-                                        class="<%= validationErrors.find(e => e.param === 'Message') ? ' form-control invalid' : 'form-control' %>"
-                                        style="border-radius:0.2em;" value="" placeholder=" Bình an nhé!">
-                                </div>
+                                <form action="/quyengop" method="POST" novalidate>
+                                    <div class="form-group">
+                                        <label for="contributionAmount">Số tiền</label>
+                                        <input type="number" name="contributionAmount" id="contributionAmount"
+                                            class="<%= validationErrors.find(e => e.param === 'contributionAmount') ? ' form-control invalid' : 'form-control' %>"
+                                            placeholder="<%=(1000000).toLocaleString('vi', {style : 'currency' , currency : 'VND' }) %>"
+                                            value=""
+                                            style="color:#a50064; border-color: #a50064; border-radius:0.2em;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message"> Lời nhắn gửi</label>
+                                        <input type="text" name="message" id="message"
+                                            class="<%= validationErrors.find(e => e.param === 'Message') ? ' form-control invalid' : 'form-control' %>"
+                                            style="border-radius:0.2em;" value="" placeholder=" Bình an nhé!">
+                                    </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input selectElement" type="checkbox" value=""
-                                        id="check_hine" /> Quyên góp ẩn danh
-                                </div>
-
-                                <button class="btn btn-primary btn-block"
-                                    style="color: #f8f9fa; background-color: #a50064; border-color: #a50064;border-radius:0.2em;">
-                                    Quyên góp</button>
+                                    <div class="form-check">
+                                        <input class="form-check-input selectElement" type="checkbox" value=""
+                                            id="check_hine" /> Quyên góp ẩn danh
+                                    </div>
+                                    <input type="hidden" name="projId" value="<%= project._id %>">
+                                    <%if(user){%>
+                                        <input type="hidden" name="userId" value="<%= user._id %>">
+                                        <%}%>
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit" class="btn btn-primary btn-block"
+                                                style="color: #f8f9fa; background-color: #a50064; border-color: #a50064;border-radius:0.2em;">
+                                                Quyên góp</button>
+                                </form>
 
                             </div>
                             <div class="card-footer">

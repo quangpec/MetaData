@@ -2,6 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const PDFdocument = require('pdfkit');
 const Project = require('../models/project');
+const User = require('../models/user');
+const Contribute = require('../models/contribute');
+const { ResultWithContext } = require('express-validator/src/chain');
+const { Result } = require('express-validator');
+const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
 
 const ITEMS_PER_PAGE =9;
 
@@ -57,10 +63,8 @@ const ITEMS_PER_PAGE =9;
 // };
 
 exports.getIndex = (req, res, next) => {
-  console.log('home')
   const page = +req.query.page||1;
   let totalItems;
-
   Project.find()
     .countDocuments()
     .then(numProject => {
@@ -90,6 +94,7 @@ exports.getIndex = (req, res, next) => {
     });
 };
 exports.getDetails =(req,res,next)=>{
+  user = req.user;
   const projId = req.params.projId;
   Project.findById(projId)
   .then( project =>{
@@ -100,6 +105,41 @@ exports.getDetails =(req,res,next)=>{
       project: project,
       validationErrors: [],
       });
+  })
+}
+exports.postQuyengop = (req,res,next)=>{
+  const userId = req.user._id;
+  const projId = req.body.projId;
+ 
+  const contributionAmount = req.body.contributionAmount;
+  const conTri = new Contribute({
+    userId: ObjectId(userId),
+    projectId: ObjectId(projId),
+    contributionAmount: contributionAmount,
+    status : 'done',
+    conDate: new Date(),
+  })
+  conTri.save()
+  .then(Result=>{
+    Project.findById(projId)
+    .then(project =>{
+        project.luotQuyengop=project.luotQuyengop+ +1;
+        project.totalAmountRaised=project.totalAmountRaised+ +contributionAmount;
+        project.save()
+        .then(result =>{
+          console.log(result);
+          return res.redirect('/');
+        })
+        .catch(err =>{
+          console.log(err);
+          next();
+        })
+    })
+    
+   })
+  .catch( err => {
+    console.log(err);
+    next();
   })
 }
 
