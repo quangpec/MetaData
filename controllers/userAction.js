@@ -9,7 +9,7 @@ const { Result } = require('express-validator');
 const mongodb = require('mongodb');
 const ObjectId = mongodb.ObjectId;
 
-const ITEMS_PER_PAGE =9;
+const ITEMS_PER_PAGE =8;
 
 // exports.getProducts = (req, res, next) =>{
 //   const page = +req.query.page||1;

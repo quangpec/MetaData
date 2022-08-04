@@ -2,8 +2,11 @@ li.active a {
   color: #a50064!important;
 }
 li a {
-  color: #f7f3f5!important;
+  color: #262626!important;
 }
 body {
   background-color:#fdf2f8!important;
+}
+li .active {
+  color: #a50064!important;
 }

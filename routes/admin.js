@@ -1,5 +1,5 @@
 const path = require('path');
-
+const User = require('../models/user');
 const express = require('express');
 // const multipart = require('connect-multiparty');
 // const multipartMiddleware = multipart();
@@ -77,5 +77,20 @@ router.post('/delete-user',isAuth,isAdmin, adminController.postDelUser);
 router.post('/update-user',isAuth,isAdmin, adminController.postUpdateUser);
 router.post('/delete-manyusers',isAuth,isAdmin, adminController.postdelManyusers);
 router.post('/uploadfile', isAuth,isAdmin, adminController.postUploadfile);
+router.get('/addusers',isAuth,isAdmin, adminController.getAddusers);
+router.post('/addusers',[
+    check('email')
+    .isEmail()
+    .withMessage('Please enter a valid email.')
+    .custom((val, { req }) => {
+      return User.findOne({ email: val })
+        .then(user => {
+          if (user) {
+            return Promise.reject('Email đã sử dụng')
+          }
+        })
+    }).normalizeEmail()
+]
+,isAuth,isAdmin, adminController.postAddusers);
 
 module.exports = router;
