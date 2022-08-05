@@ -37,3 +37,12 @@ window.addEventListener('error', function (e) {
     reporter.event('JAVASCRIPT_ERROR_STACKTRACE', stacktrace);
   }
 });
+
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
