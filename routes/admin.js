@@ -82,6 +82,7 @@ router.post('/addusers',[
     check('email')
     .isEmail()
     .withMessage('Please enter a valid email.')
+    .toLowerCase()
     .custom((val, { req }) => {
       return User.findOne({ email: val })
         .then(user => {

@@ -98,7 +98,6 @@ exports.getDetails =(req,res,next)=>{
   const projId = req.params.projId;
   Project.findById(projId)
   .then( project =>{
-    console.log(project);
     res.render('user/detail', {
       path: '/details',
       pageTitle: project.title,

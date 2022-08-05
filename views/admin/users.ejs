@@ -11,14 +11,12 @@
                         <div class="alert alert-warning alert-dismissible fade show" role="alert" id="del">
                             <strong>DELETED!</strong>
                             <%=del%>
-                                </button>
                         </div>
                         <%}%>
                             <%if(upd){%>
                                 <div class="alert alert-warning alert-dismissible fade show" role="alert" id="del">
                                     <strong>Cập nhật!</strong>
                                     <%=upd%>
-                                        </button>
                                 </div>
                                 <%}%>
 
@@ -26,7 +24,7 @@
                                         <div class="form-group" style="margin:auto;max-width: 450px;">
                                             <div class="row">
                                                 <button type='button' class="btn btn-light"
-                                                    style="width:25%; margin-right:5px;" data-bs-toggle="modal"
+                                                    style="width:25%; margin-right:5px; background-color: #a50064; border-color:aliceblue; color: aliceblue; " data-bs-toggle="modal"
                                                     data-bs-target="#formFilter"> <svg
                                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
@@ -36,7 +34,7 @@
                                                 <input type="text" id="keyWord" name="keyWord" class="form-control"
                                                     placeholder="Type query name and email" style="width:60%"
                                                     aria-label="Search" />
-                                                <button type="submit" class="btn btn-link" style="width:10%"><svg
+                                                <button type="submit" class="btn btn-link" style="width:10%; color: #a50064;"><svg
                                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                                         <path
@@ -106,11 +104,11 @@
 
                                                     <div class="modal-footer">
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn btn-secondary"
+                                                            <button type="submit" class="btn btn-secondary" style="background-color: #a50064; border-color:aliceblue; color: aliceblue;"
                                                                 data-bs-dismiss="modal">Xem kết quả</button>
                                                         </div>
                                                         <div class="form-group">
-                                                            <a class="btn btn-secondary" href="/admin/filter">Bộ lọc tùy
+                                                            <a class="btn btn-light" style=" border-radius: 7rem !important;" href="/admin/filter">Bộ lọc tùy
                                                                 chỉnh</a>
                                                         </div>
                                                     </div>
@@ -120,7 +118,7 @@
                                     </div>
 
                                     <button type='button' class="btn btn-link" id='delMany' data-bs-toggle="modal"
-                                        data-bs-target="#delManyModal" title="Xóa">
+                                        data-bs-target="#delManyModal" title="Xóa" style="color: #a50064;">
 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -149,9 +147,9 @@
                                                         Bạn có muốn xóa các phần tử được chọn không?
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-secondary"
+                                                        <button type="submit" class="btn btn-light"
                                                             data-bs-dismiss="modal">Xóa</button>
-                                                        <button type="button" class="btn btn-secondary"
+                                                        <button type="button" class="btn btn-light"
                                                             data-bs-dismiss="modal">Không
                                                             xóa</button>
                                                     </div>
@@ -161,7 +159,7 @@
                                     </div>
 
                                     <button type='button' class="btn btn-link" id='sendMails' data-bs-toggle="modal"
-                                        data-bs-target="#sendMails" title="gửi email">
+                                        data-bs-target="#sendMails" title="gửi email" style="color: #a50064;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
                                             <path
@@ -239,7 +237,7 @@
                                                                     name="userId">
                                                                 <button type="button" class="btn btn-link"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#update<%=user._id%>"><svg
+                                                                    data-bs-target="#update<%=user._id%>" style="color: #a50064;"><svg
                                                                         xmlns="http://www.w3.org/2000/svg" width="16"
                                                                         height="16" fill="currentColor"
                                                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -261,7 +259,7 @@
                                                                                 <button type="button" class="btn close"
                                                                                     data-bs-dismiss="modal"
                                                                                     aria-label="Close"><span
-                                                                                        aria-hidden="true">&times;</span></button>
+                                                                                        aria-hidden="true" style="color: #a50064;">&times;</span></button>
                                                                             </div>
                                                                             <div class="modal-body"
                                                                                 style="margin: auto;width: 90%;">
@@ -311,11 +309,11 @@
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="submit"
-                                                                                    class="btn btn-secondary"
+                                                                                    class="btn btn-light"
                                                                                     data-bs-dismiss="modal">Cập
                                                                                     nhật</button>
                                                                                 <button type="button"
-                                                                                    class="btn btn-secondary"
+                                                                                    class="btn btn-light"
                                                                                     data-bs-dismiss="modal">Hủy</button>
                                                                             </div>
                                                                         </div>
@@ -329,7 +327,7 @@
                                                                     <input type="hidden" value="<%= user._id %>"
                                                                         name="userId">
                                                                     <% if(!user.permission){%>
-                                                                        <button type="button" class="btn btn-link"
+                                                                        <button type="button" class="btn btn-link" style="color: #a50064;"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#id<%=user._id%>">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -366,10 +364,10 @@
                                                                                         </div>
                                                                                         <div class="modal-footer">
                                                                                             <button type="submit"
-                                                                                                class="btn btn-secondary"
+                                                                                                class="btn btn-light"
                                                                                                 data-bs-dismiss="modal">Xóa</button>
                                                                                             <button type="button"
-                                                                                                class="btn btn-secondary"
+                                                                                                class="btn btn-light"
                                                                                                 data-bs-dismiss="modal">Không
                                                                                                 xóa</button>
                                                                                         </div>

@@ -1,5 +1,9 @@
 
 input.invalid,
 textarea.invalid{
-  border-color: red;
+  border-color: #a50064;
+  border-radius: 10rem;
+}
+input {
+  border-radius: 10rem !important;
 }

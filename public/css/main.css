@@ -1,12 +1,40 @@
 li.active a {
   color: #a50064!important;
+  font-weight: bold;
 }
 li a {
-  color: #262626!important;
+  color: #522f04!important;
 }
 body {
   background-color:#fdf2f8!important;
 }
 li .active {
   color: #a50064!important;
+}
+tr th {
+  color:  #a50064!important;
+}
+button.btn-light {
+  background-color: #a50064!important; border-color: aliceblue!important; color: aliceblue !important;
+}
+button.btn-link{
+  color: #a50064!important;
+}
+a {
+  color: #a50064!important;
+}
+a.btn-light {
+  background-color: #a50064!important; border-color: aliceblue!important; color: aliceblue !important;
+}
+button.btn-primary{
+  background-color: #a50064!important; border-color: aliceblue!important; color: aliceblue !important;
+}
+button{
+  border-radius: 7rem !important;
+}
+input {
+  border-radius: 10rem !important;
+}
+button.close {
+  color:#a50064!important;
 }

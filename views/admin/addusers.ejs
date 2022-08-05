@@ -14,16 +14,16 @@
                     <%= message %>
                 </div>
                 <% } %>
-        <div class="col-12 col-md-4 mt-5" style="margin:auto" >
+        <div class="col-12 col-md-3 mt-5 mb-5" style="margin:auto" >
             <form action="/admin/addusers" method="POST" novalidate>
                 <div class="form-group">
                     <label for="email">E-Mail</label>
                     <input
                         class="form-control <%=validationErrors.find(e=> e.param ==='email')? 'invalid':''%>"
-                        type="email" name="email" id="email" value="<%=oldInput.email %>">
+                        type="email" name="email" id="email" value="<%=oldInput.email %>" style=" border-radius: 5 rem">
                 </div>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn btn-primary mb-2 btn-block" type="submit">Thêm người dùng</button>
+                <button class="btn btn-primary mb-2 btn-block" type="submit" style="background-color: #a50064; border-color:aliceblue ">Thêm người dùng</button>
             </form>
         </div>
     </main>
