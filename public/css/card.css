@@ -16,3 +16,13 @@ h5.card-title{
 h5.card-title:hover {
     color: #a50064;
 }
+div.card-footer{
+ background-color: #ffffff;
+ border-radius:0rem 0rem 1rem 1rem !important;
+}
+div.card{
+    border-radius:1rem;
+}
+div.card img{
+    border-radius:1rem 1rem 0rem 0rem;
+}

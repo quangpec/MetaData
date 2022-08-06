@@ -44,7 +44,7 @@
                                 <div class="m-1"
                                     style="width:100%; height: 0.2rem; background-color: #b2bdc6d5; border-radius:0.2em;">
                                     <div
-                                        style=" max-width:100%; width:<%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem; background-color: #a50064;; border-radius:0.2em;">
+                                        style=" width: <%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem;  <% if(project.totalAmountRaised/project.target*100 >=100) {%> background-color: #7eb54a ; <%}else{%>background-color: #a50064;<%}%>; border-radius:0.2em;">
                                     </div>
                                 </div>
                                 <div class="row m-1">
@@ -71,8 +71,7 @@
                                         <input type="number" name="contributionAmount" id="contributionAmount"
                                             class="<%= validationErrors.find(e => e.param === 'contributionAmount') ? ' form-control invalid' : 'form-control' %>"
                                             placeholder="<%=(1000000).toLocaleString('vi', {style : 'currency' , currency : 'VND' }) %>"
-                                            value=""
-                                            style="color:#a50064; border-color: #a50064; border-radius:0.2em;">
+                                            value="" style="color:#a50064; border-color: #a50064; border-radius:0.2em;">
                                     </div>
                                     <div class="form-group">
                                         <label for="message"> Lời nhắn gửi</label>
@@ -86,26 +85,37 @@
                                             id="check_hine" /> Quyên góp ẩn danh
                                     </div>
                                     <input type="hidden" name="projId" value="<%= project._id %>">
-                                    <%if(user){%>
-                                        <input type="hidden" name="userId" value="<%= user._id %>">
-                                        <%}%>
+
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <button type="submit" class="btn btn-primary btn-block"
+                                            <% if(project.totalAmountRaised/project.target*100 >=100) {%>
+                                                <div type="text" class="btn btn-primary btn-block"
+                                                style="color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
+                                                Đạt Mục tiêu</div>
+                                            <%}else if(project.startDate> new Date()){%>
+                                                <div class="btn btn-primary btn-block"
+                                                style="background-color:#ffe8df !important; color: #fb923c !important; border-color: #fb923c!important;;border-radius:5rem;">
+                                                Coming soom</div>
+                                                <%}else{%>
+                                                    <button type="submit" class="btn btn-primary btn-block"
                                                 style="color: #f8f9fa; background-color: #a50064; border-color: #a50064;border-radius:0.2em;">
                                                 Quyên góp</button>
+                                                    <%}%>
                                 </form>
 
                             </div>
                             <div class="card-footer">
-                                <%if(project.startDate > new Date()){%>
-                                <small class="text-muted">coming soon</small>
-                                <%}else if (project.totalAmountRaised>= project.target){%>
-                                    <small class="text-muted">Đạt mục tiêu</small>
-                                <%} else if(project.startDate <= new Date()){%>
-                                    <small class="text-muted" style="background-color:#ffe8df;border-radius:3rem; color: #fb923c !important; padding:0.1rem;"> còn <%= Math.floor((project.endDate.valueOf() - new Date().valueOf())/86400000)%> ngày</small>
-                                    <%}else {%>
-                                        <small class="text-muted">finished</small>
-                                        <%}%>
+                                <%if(project.startDate> new Date()){%>
+                                    <small class="text-muted">coming soon</small>
+                                    <%}else if (project.totalAmountRaised>= project.target){%>
+                                        <small class="text-muted">Đạt mục tiêu</small>
+                                        <%} else if(project.startDate <=new Date()){%>
+                                            <small class="text-muted"
+                                                style="background-color:#ffe8df;border-radius:3rem; color: #fb923c !important; padding:0.1rem;">
+                                                còn <%= Math.floor((project.endDate.valueOf() - new
+                                                    Date().valueOf())/86400000)%> ngày</small>
+                                            <%}else {%>
+                                                <small class="text-muted">finished</small>
+                                                <%}%>
                             </div>
                         </div>
 
