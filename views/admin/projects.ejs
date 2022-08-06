@@ -181,9 +181,9 @@
                                                     </div>
 
                                                 </td>
-                                                <th scope="row">
+                                                <td scope="row">
                                                     <%=stt%>
-                                                </th>
+                                                </td>
                                                 <td style="font-size:1rem;
                                             color: rgba(41, 40, 40, 0.863);
                                             font: 'San Francisco', Helvetica, Arial, san-serif;
@@ -197,7 +197,7 @@
                                             -webkit-box-orient: vertical;
                                             overflow: hidden;
                                             text-overflow: ellipsis;">
-                                                    <%= project.title %>
+                                            <a href="/project/<%=project._id%>"><%= project.title %></a>
                                                 </td>
                                                 <td>
                                                     <%= project.target.toLocaleString('vi', {style : 'currency' ,

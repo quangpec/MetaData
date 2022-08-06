@@ -8,7 +8,7 @@
                 <div class=" row col-12 col-md-10" style="margin: auto;">
                     <blockquote class="blockquote text-center mt-3">
                         <p class="mb-0" style="font-size: 1.8rem;
-                        line-height: 2rem; font-weight: 500; font-family: Nunito,Arial,sans-serif;">
+                        line-height: 2.5rem; font-weight: 500; font-family: Nunito,Arial,sans-serif; color:#a50064">
                             <%= project.title %>
                         </p>
                         <footer class="blockquote-footer">Có điều kỳ diệu xảy đến với những người thực sự biết yêu
@@ -97,7 +97,15 @@
 
                             </div>
                             <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
+                                <%if(project.startDate > new Date()){%>
+                                <small class="text-muted">coming soon</small>
+                                <%}else if (project.totalAmountRaised>= project.target){%>
+                                    <small class="text-muted">Đạt mục tiêu</small>
+                                <%} else if(project.startDate <= new Date()){%>
+                                    <small class="text-muted" style="background-color:#ffe8df;border-radius:3rem; color: #fb923c !important; padding:0.1rem;"> còn <%= Math.floor((project.endDate.valueOf() - new Date().valueOf())/86400000)%> ngày</small>
+                                    <%}else {%>
+                                        <small class="text-muted">finished</small>
+                                        <%}%>
                             </div>
                         </div>
 

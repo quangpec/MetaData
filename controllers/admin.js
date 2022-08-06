@@ -253,6 +253,7 @@ exports.getProjects = (req, res, next) => {
     .then(numProjects => {
       totalItems = numProjects;
       return Project.find({ $and: [{ status: status }, { target: { $gte: tgMin, $lt: tgMax } }, { startDate: { $gt: startDate } }, { endDate: { $lt: endDate } }, { $or: [{ title: { $regex: keyWord, $options: 'i' } }, { description: { $regex: keyWord, $options: 'i' } }] }] })
+        .sort({startDate:1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })

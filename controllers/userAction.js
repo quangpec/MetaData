@@ -9,7 +9,7 @@ const { Result } = require('express-validator');
 const mongodb = require('mongodb');
 const ObjectId = mongodb.ObjectId;
 
-const ITEMS_PER_PAGE =8;
+const ITEMS_PER_PAGE =12;
 
 // exports.getProducts = (req, res, next) =>{
 //   const page = +req.query.page||1;
@@ -70,6 +70,7 @@ exports.getIndex = (req, res, next) => {
     .then(numProject => {
       totalItems = numProject;
       return Project.find()
+        .sort({startDate:1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })

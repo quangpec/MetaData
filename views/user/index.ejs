@@ -12,43 +12,46 @@
 <h5 style="text-align:center; color: #747373; font-size: 1rem;">Chung tay quy&ecirc;n g&oacute;p gi&uacute;p đỡ c&aacute;c ho&agrave;n cảnh kh&oacute; khăn tr&ecirc;n khắp cả nước.</h5>
                 </div>
                 <% if (projs.length> 0) { %>
-                    <div class="row" style="max-width:95%; margin:auto; background-color:#fdf2f8; ">
+                    <div class="row" style="max-width:99%; margin:auto; background-color:#fdf2f8; ">
                         <% for (let project of projs) { %>
-                            <a href="/project/<%=project._id%>" class="col-12 col-md-3" style="text-decoration: none;">
+                            <a href="/project/<%=project._id%>" class="col-12 col-md-6 col-lg-4" style="text-decoration: none;">
                                 <div class="card mt-3" style="border-radius: 0.5rem;">
                                     <img class="card-img-top" style="border-radius: 0.5rem;"
                                         src="/<%= project.imageUrl %>" alt="Card image cap">
-                                    <div class="card-body">
+                                    <div class="card-body m-1">
                                         <h5 class="card-title">
                                             <%= project.title %>
                                         </h5>
+                                        <div class="m-1">
                                         <p><span style="color:rgb(64, 64, 64); font-weight: bolder;">
                                                 <%= project.totalAmountRaised.toLocaleString('vi', {style : 'currency' ,
                                                     currency : 'VND' })%>
                                             </span><span style="color:rgb(115, 115, 115);">/
                                                 <%= project.target.toLocaleString('vi', {style : 'currency' , currency
                                                     : 'VND' })%>
-                                            </span></p>
+                                        </span></p>
+                                        </div>
+                                    
                                         <div class="m-1"
                                             style="width:100%; height: 0.2rem; background-color: #b2bdc6d5; border-radius:0.2em;">
                                             <div
-                                                style=" width: <%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem; background-color: #a50064;; border-radius:0.2em;">
+                                                style=" width: <%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem;  <% if(project.totalAmountRaised/project.target*100 >=100) {%> background-color: #7eb54a ; <%}else{%>background-color: #a50064;<%}%>; border-radius:0.2em;">
                                             </div>
                                         </div>
-                                        <div class="row m-1">
-                                            <div style="width: 35%">
-                                                <p style="font-size: 0.8rem; color: #b2bdc6d5; margin-bottom:0rem;">Lượt
+                                        <div class="row m-1" style="margin: auto;" >
+                                            <div style="margin: auto;">
+                                                <p style="font-size: 0.6rem; color: #b2bdc6d5; margin-bottom:0rem;">Lượt
                                                     quyên góp</p>
                                                 <p style="color: rgba(82,82,82,1) ;"> <%=new Intl.NumberFormat().format(project.luotQuyengop) %></p>
                                             </div>
-                                            <div style="width: 30%; text-align: center;">
-                                                <p style="font-size: 0.8rem; color: #b2bdc6d5; margin-bottom:0rem;">Đạt
+                                            <div style="margin: auto;">
+                                                <p style="font-size: 0.6rem; color: #b2bdc6d5; margin-bottom:0rem;">Đạt
                                                     được</p>
                                                 <p style="color: rgba(82,82,82,1);">
                                                     <%= new Intl.NumberFormat().format((project.totalAmountRaised/project.target*100))%>%
                                                 </p>
                                             </div>
-                                            <div class="mt-2 ml-2">
+                                            <div style="margin: auto;">
                                                 <button  class="btn btn-primary" style="color: #a50064; background-color: #f8f9fa; border-color: #a50064;; font-size: 0.7rem;  font-weight: 700;"> Quyên góp</button>
                                             </div>
                                             
@@ -57,7 +60,15 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                        <%if(project.startDate > new Date()){%>
+                                        <small class="text-muted">coming soon</small>
+                                        <%}else if (project.totalAmountRaised>= project.target){%>
+                                            <small class="text-muted">Đạt mục tiêu</small>
+                                        <%} else if(project.startDate <= new Date()){%>
+                                            <small class="text-muted" style="background-color:#ffe8df;border-radius:3rem; color: #fb923c !important; padding:0.1rem;"> còn <%= Math.floor((project.endDate.valueOf() - new Date().valueOf())/86400000)%> ngày</small>
+                                            <%}else {%>
+                                                <small class="text-muted">finished</small>
+                                                <%}%>
                                     </div>
                                 </div>
                             </a>
