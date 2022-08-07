@@ -341,7 +341,7 @@ exports.postDeleteProject = (req, res, next) => {
     });
 };
 exports.getUsers = (req, res, next) => {
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 30;
   const keyWord = req.query.keyWord || ''.trim();
   const status = req.query.status || '';
   const startDate = req.query.startDate || 0;
