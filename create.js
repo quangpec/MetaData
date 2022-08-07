@@ -83,36 +83,46 @@
 //   db.close();
 // });
 "use strict";
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: 'quanglnFX13841@funix.edu.vn', // generated ethereal user
-      pass: 'La242119@', // generated ethereal password
-    },
-  });
+// // async..await is not allowed in global scope, must use a wrapper
+// async function main() {
+//   // Generate test SMTP service account from ethereal.email
+//   // Only needed if you don't have a real mail account for testing
+//   // create reusable transporter object using the default SMTP transport
+//   let transporter = nodemailer.createTransport({
+//     host: "smtp.gmail.com",
+//     port: 587,
+//     secure: false, // true for 465, false for other ports
+//     auth: {
+//       user: 'quanglnFX13841@funix.edu.vn', // generated ethereal user
+//       pass: 'La242119@', // generated ethereal password
+//     },
+//   });
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: 'quanglnFX13841@funix.edu.vn', // sender address
-    to: "nhoccontizen@gmail.com", // list of receivers
-    subject: "welcome to abc.com", // Subject line
-    text: "Chào mừng bạn đến với abc.com mã xác thực của bạn là :" + '012345' +" mã xác thực có giá trị trong 5 phút" , // plain text body
-    html: "<b>Chào mừng bạn đến với abc.com mã xác thực của bạn là :" + '012345' +" mã xác thực có giá trị trong 5 phút</b>", // html body
-  });
+//   // send mail with defined transport object
+//   let info = await transporter.sendMail({
+//     from: 'quanglnFX13841@funix.edu.vn', // sender address
+//     to: "nhoccontizen@gmail.com", // list of receivers
+//     subject: "welcome to abc.com", // Subject line
+//     text: "Chào mừng bạn đến với abc.com mã xác thực của bạn là :" + '012345' +" mã xác thực có giá trị trong 5 phút" , // plain text body
+//     html: "<b>Chào mừng bạn đến với abc.com mã xác thực của bạn là :" + '012345' +" mã xác thực có giá trị trong 5 phút</b>", // html body
+//   });
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+//   console.log("Message sent: %s", info.messageId);
+//   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-  // Preview only available when sending through an Ethereal account
-}
+//   // Preview only available when sending through an Ethereal account
+// }
 
-main().catch(console.error);
+// main().catch(console.error);
+
+const fs = require('fs');
+
+fs.readFile('mail.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
+});

@@ -5,6 +5,8 @@ const fileHelper = require('../util/file');
 const { mailNotification } = require('../util/sendmail');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const { use } = require('../routes/admin');
+const { listIndexes } = require('../models/project');
 const ITEMS_PER_PAGE = 5;
 
 exports.getFilter = (req, res, next) => {
@@ -28,7 +30,7 @@ exports.postUploadfile = (req, res, next) => {
   //           //     let img = "<script>window.parent.CKEDITOR.tools.callFunction('','"+imgl+"','ok');</script>";
   //           //    res.status(201).send(img);
 
-  let url = '/images/'+req.file.filename;
+  let url = '/images/' + req.file.filename;
   let msg = 'Upload successfully';
   let funcNum = req.query.CKEditorFuncNum;
   //               console.log({url,msg,funcNum});
@@ -106,7 +108,7 @@ exports.postAddProject = (req, res, next) => {
     status: 'waiting',
     endDate: endDate,
     startDate: startDate,
-    luotQuyengop:0
+    luotQuyengop: 0
   });
   project
     .save()
@@ -253,7 +255,7 @@ exports.getProjects = (req, res, next) => {
     .then(numProjects => {
       totalItems = numProjects;
       return Project.find({ $and: [{ status: status }, { target: { $gte: tgMin, $lt: tgMax } }, { startDate: { $gt: startDate } }, { endDate: { $lt: endDate } }, { $or: [{ title: { $regex: keyWord, $options: 'i' } }, { description: { $regex: keyWord, $options: 'i' } }] }] })
-        .sort({startDate:1})
+        .sort({ startDate: 1 })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -339,24 +341,25 @@ exports.postDeleteProject = (req, res, next) => {
     });
 };
 exports.getUsers = (req, res, next) => {
+  const ITEMS_PER_PAGE = 10;
   const keyWord = req.query.keyWord || ''.trim();
   const status = req.query.status || '';
   const startDate = req.query.startDate || 0;
-  const page = +req.query.page||1;
+  const page = +req.query.page || 1;
   const stt = (page - 1) * ITEMS_PER_PAGE;
   let totalItems;
 
   const del = req.flash('delele')[0];
   const upd = req.flash('update')[0];
   User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
-  .countDocuments()
-  .then(numProjects => {
-    totalItems = numProjects;
-    return User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
-    .skip((page - 1) * ITEMS_PER_PAGE)
-    .limit(ITEMS_PER_PAGE);
-  })  
-  .then(users => {
+    .countDocuments()
+    .then(numProjects => {
+      totalItems = numProjects;
+      return User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
+    .then(users => {
       res.render('admin/users', {
         pageTitle: 'Quản lý users',
         path: '/admin/users',
@@ -409,13 +412,13 @@ exports.postUpdateUser = async (req, res, next) => {
   const user = await User.findById(userId);
   const mailUser = user.email;
   user.status = status;
-  if (permission){
+  if (permission) {
     user.permission = true;
   }
   await user.save();
   req.flash('update', 'Cập nhật user thành công');
-  if(sendmail){
-  mailNotification(mailUser, 'Thông báo trạng thái tài khoản của bạn được cập nhật vào lúc ' + new Date() + ' hiện trạng thái mới của tài khoản này là:' + status + ' trân trọng thông báo');
+  if (sendmail) {
+    mailNotification(mailUser, 'Thông báo trạng thái tài khoản của bạn được cập nhật vào lúc ' + new Date() + ' hiện trạng thái mới của tài khoản này là:' + status + ' trân trọng thông báo');
   }
   res.redirect('/admin/users');
 }
@@ -444,7 +447,7 @@ exports.postdelManyusers = (req, res, next) => {
     });
 
 }
-exports.getAddusers = (req,res,next)=>{
+exports.getAddusers = (req, res, next) => {
   let errorMessage = req.flash('error');
   let message = req.flash('message');
   if (errorMessage.length > 0) {
@@ -457,18 +460,18 @@ exports.getAddusers = (req,res,next)=>{
   } else {
     message = null;
   }
-  res.render( 'admin/addusers',{
+  res.render('admin/addusers', {
     pageTitle: 'Thêm người dùng',
-        path: '/admin/addusers',
-    validationErrors:[],
+    path: '/admin/addusers',
+    validationErrors: [],
     errorMessage: errorMessage,
     message: message,
-    oldInput:{
-      email:'',
+    oldInput: {
+      email: '',
     }
   })
 }
-exports.postAddusers =(req, res, next) =>{
+exports.postAddusers = (req, res, next) => {
   const email = req.body.email;
   const name = email;
   const password = Math.floor(Math.random() * (99999 - 10000) + 100000).toString();
@@ -507,11 +510,11 @@ exports.postAddusers =(req, res, next) =>{
       return user.save();
     })
     .then(result => {
-      mailNotification(email,'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email +', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>' );
+      mailNotification(email, 'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email + ', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>');
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      req.flash('message','Thêm người dùng thành công!');
+      req.flash('message', 'Thêm người dùng thành công!');
       // Preview only available when sending through an Ethereal account
-     res.redirect('/admin/addusers');
+      res.redirect('/admin/addusers');
       // return transporter.sendMail({
       //   to: email,
       //   from: 'shop@node-complete.com',
@@ -524,7 +527,50 @@ exports.postAddusers =(req, res, next) =>{
       error.httpStatusCode = 500;
       return next(error);
     });
+}
 
+exports.postlistAddusers = (req, res, next) => {
+  const listMail = req.file.path;
+  console.log(listMail);
 
-
+   fs.readFile(listMail, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    const list = data.split(/\r?\n/);
+    console.log(list);
+    for(const email of  list){
+      if(email == ''){
+        continue;
+      }
+      const name = email;
+      const password = Math.floor(Math.random() * (99999 - 10000) + 100000).toString();
+       bcrypt
+      .hash(password, 12)
+      .then(hashedPassword => {
+        const user = new User({
+          email: email,
+          password: hashedPassword,
+          name: name,
+          avatar: '',
+          permission: false,
+          startDate: new Date(),
+          status: 'verified',
+          confirmDate: new Date(),
+          otp: null,
+          tokenResetpass: {
+            token: null,
+            expires: null
+          }
+        });
+        user.save()
+        .then( result =>{
+          console.log(email);
+          mailNotification(email,'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email +', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>' );
+        })
+      })  
+    }
+   })
+   res.redirect('/admin/users');
 }

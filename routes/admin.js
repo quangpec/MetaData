@@ -94,4 +94,6 @@ router.post('/addusers',[
 ]
 ,isAuth,isAdmin, adminController.postAddusers);
 
+router.post('/listAddusers',isAuth,isAdmin, adminController.postlistAddusers);
+
 module.exports = router;
