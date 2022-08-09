@@ -373,7 +373,11 @@ exports.getUsers = (req, res, next) => {
         previousPage: page - +1,
         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
         page: page,
-        stt: stt
+        stt: stt,
+        validationErrors:[],
+        oldInput:{
+          email:'',
+        }
       })
     })
     .catch(err => console.log(err));
@@ -447,30 +451,6 @@ exports.postdelManyusers = (req, res, next) => {
     });
 
 }
-exports.getAddusers = (req, res, next) => {
-  let errorMessage = req.flash('error');
-  let message = req.flash('message');
-  if (errorMessage.length > 0) {
-    errorMessage = errorMessage[0];
-  } else {
-    errorMessage = null;
-  }
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('admin/addusers', {
-    pageTitle: 'Thêm người dùng',
-    path: '/admin/addusers',
-    validationErrors: [],
-    errorMessage: errorMessage,
-    message: message,
-    oldInput: {
-      email: '',
-    }
-  })
-}
 exports.postAddusers = (req, res, next) => {
   const email = req.body.email;
   const name = email;
@@ -478,16 +458,7 @@ exports.postAddusers = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
-    return res.status(422).render('admin/addusers', {
-      path: '/admin/addusers',
-      pageTitle: 'Thêm người dùng',
-      errorMessage: errors.array()[0].msg,
-      message: null,
-      oldInput: {
-        email: email,
-      },
-      validationErrors: errors.array()
-    });
+    return res.status(422).redirect('/admin/users');
   }
   return bcrypt
     .hash(password, 12)
@@ -514,7 +485,7 @@ exports.postAddusers = (req, res, next) => {
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
       req.flash('message', 'Thêm người dùng thành công!');
       // Preview only available when sending through an Ethereal account
-      res.redirect('/admin/addusers');
+      res.redirect('/admin/users');
       // return transporter.sendMail({
       //   to: email,
       //   from: 'shop@node-complete.com',

@@ -77,7 +77,6 @@ router.post('/delete-user',isAuth,isAdmin, adminController.postDelUser);
 router.post('/update-user',isAuth,isAdmin, adminController.postUpdateUser);
 router.post('/delete-manyusers',isAuth,isAdmin, adminController.postdelManyusers);
 router.post('/uploadfile', isAuth,isAdmin, adminController.postUploadfile);
-router.get('/addusers',isAuth,isAdmin, adminController.getAddusers);
 router.post('/addusers',[
     check('email')
     .isEmail()

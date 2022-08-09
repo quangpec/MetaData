@@ -35,7 +35,7 @@
                                         <div class="m-1"
                                             style="width:100%; height: 0.2rem; background-color: #b2bdc6d5; border-radius:0.2em;">
                                             <div
-                                                style=" width: <%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem;  <% if(project.totalAmountRaised/project.target*100 >=100) {%> background-color: #7eb54a ; <%}else{%>background-color: #a50064;<%}%>; border-radius:0.2em;">
+                                                style=" width: <%= (project.totalAmountRaised/project.target*100).toString() %>%; height: 0.2rem;  <% if(project.totalAmountRaised/project.target*100 >=100) {%> background-color: #7eb54a ;<%}else{%>background-color: #a50064;<%}%>; border-radius:0.2em;">
                                             </div>
                                         </div>
                                         <div class="row m-1" style="margin: auto;" >
@@ -51,7 +51,12 @@
                                                     <%= new Intl.NumberFormat().format((project.totalAmountRaised/project.target*100))%>%
                                                 </p>
                                             </div>
-                                            <% if(project.totalAmountRaised/project.target*100 >=100) {%>
+                                            <%if(project.status=='stop'){%>
+                                                <div class="btn btn-primary"
+                                                style=" margin: auto; color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
+                                                Ngưng nhận tiền
+                                            </div>
+                                            <%}else if(project.totalAmountRaised/project.target*100 >=100) {%>
                                                 <div class="btn btn-primary"
                                                 style=" margin: auto; color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
                                                 Đạt Mục tiêu</div>
@@ -70,13 +75,15 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <%if(project.startDate > new Date()){%>
+                                        <%if(project.status =='stop'){%>
+                                            <small class="text-muted">finished</small>
+                                        <%}else if(project.startDate > new Date()){%>
                                         <small class="text-muted">coming soon</small>
                                         <%}else if (project.totalAmountRaised>= project.target){%>
                                             <small class="text-muted">Đạt mục tiêu</small>
                                         <%} else if(project.startDate <= new Date()){%>
                                             <small class="text-muted" style="background-color:#ffe8df;border-radius:3rem; color: #fb923c !important; padding:0.1rem;"> còn <%= Math.floor((project.endDate.valueOf() - new Date().valueOf())/86400000)%> ngày</small>
-                                            <%}else {%>
+                                            <%}else{%>
                                                 <small class="text-muted">finished</small>
                                                 <%}%>
                                     </div>

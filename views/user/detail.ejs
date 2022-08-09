@@ -87,7 +87,12 @@
                                     <input type="hidden" name="projId" value="<%= project._id %>">
 
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <% if(project.totalAmountRaised/project.target*100 >=100) {%>
+                                            <%if(project.status=='stop'){%>
+                                                <div class="btn btn-primary btn-block"
+                                                style=" margin: auto; color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
+                                                Ngưng nhận tiền
+                                            </div>
+                                            <%}else if(project.totalAmountRaised/project.target*100 >=100) {%>
                                                 <div type="text" class="btn btn-primary btn-block"
                                                 style="color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
                                                 Đạt Mục tiêu</div>
@@ -104,7 +109,9 @@
 
                             </div>
                             <div class="card-footer">
-                                <%if(project.startDate> new Date()){%>
+                                <%if(project.status =='stop'){%>
+                                    <small class="text-muted">finished</small>
+                                <%}else if(project.startDate> new Date()){%>
                                     <small class="text-muted">coming soon</small>
                                     <%}else if (project.totalAmountRaised>= project.target){%>
                                         <small class="text-muted">Đạt mục tiêu</small>
