@@ -3,11 +3,8 @@ const path = require('path');
 const Project = require('../models/project');
 const User = require('../models/user');
 const Contribute = require('../models/contribute');
-const { ResultWithContext } = require('express-validator/src/chain');
-const { Result } = require('express-validator');
 const mongodb = require('mongodb');
 const ObjectId = mongodb.ObjectId;
-
 const ITEMS_PER_PAGE =12;
 
 // exports.getProducts = (req, res, next) =>{
@@ -61,17 +58,39 @@ const ITEMS_PER_PAGE =12;
 //     });
 // };
 exports.getProfile = (req,res,next)=>{
-  const  message = req.flash('message')[0];
-  const errors = req.flash('error')[0];
-  console.log(errors);
-  res.render('user/profile',{
+  Contribute.find({userId: req.user._id})
+  .countDocuments()
+  .then(numContribute =>{
+    Contribute.find({userId: req.user._id})
+    .then(contributes =>{
+      const total = contributes.map(contributes=> contributes.contributionAmount).reduce((partialSum, a) => partialSum + a, 0);
+      console.log(total);
+      const  message = req.flash('message')[0];
+    const errors = req.flash('error')[0];
+    res.render('user/profile',{
     path: '/profile',
     pageTitle: 'Trang cá nhân',
     user: req.user,
     validationErrors:[],
     errorMessage:errors,
     message: message,
+    numContribute: numContribute,
+    total: total
   })
+
+
+    })
+    .catch(err =>{
+      console.log(err);
+      next();
+    })
+    
+  })
+  .catch(err =>{
+    console.log(err);
+    next();
+  })
+  
 }
 exports.postChangepass =(req,res,next)=>{
   

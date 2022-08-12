@@ -5,8 +5,6 @@ const fileHelper = require('../util/file');
 const { mailNotification } = require('../util/sendmail');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const { use } = require('../routes/admin');
-const { listIndexes } = require('../models/project');
 const ITEMS_PER_PAGE = 5;
 
 exports.getFilter = (req, res, next) => {
@@ -341,6 +339,7 @@ exports.postDeleteProject = (req, res, next) => {
     });
 };
 exports.getUsers = (req, res, next) => {
+  const message = req.flash('message')[0];
   const ITEMS_PER_PAGE = 30;
   const keyWord = req.query.keyWord || ''.trim();
   const status = req.query.status || '';
@@ -366,6 +365,7 @@ exports.getUsers = (req, res, next) => {
         users: users,
         del: del,
         upd: upd,
+        message: message,
         totalProjects: totalItems,
         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
         hasPreviousPage: page > 1,
@@ -458,6 +458,7 @@ exports.postAddusers = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
+    req.flash('message',errors.array()[0].msg);
     return res.status(422).redirect('/admin/users');
   }
   return bcrypt
@@ -502,7 +503,6 @@ exports.postAddusers = (req, res, next) => {
 
 exports.postlistAddusers = (req, res, next) => {
   const listMail = req.file.path;
-  console.log(listMail);
 
    fs.readFile(listMail, 'utf8', (err, data) => {
     if (err) {
@@ -510,7 +510,6 @@ exports.postlistAddusers = (req, res, next) => {
       return;
     }
     const list = data.split(/\r?\n/);
-    console.log(list);
     for(const email of  list){
       if(email == ''){
         continue;
@@ -537,11 +536,11 @@ exports.postlistAddusers = (req, res, next) => {
         });
         user.save()
         .then( result =>{
-          console.log(email);
           mailNotification(email,'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email +', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>' );
         })
       })  
     }
    })
+   req.flash('message', 'Thêm người dùng thành công!');
    res.redirect('/admin/users');
 }

@@ -28,8 +28,9 @@
                             </p>
                             <p>Tình trạng: <%=user.status%>
                             </p>
-                            <p>Lượt quyên góp: 10 (lượt)</p>
-                            <p>Tổng số tiền đã quyên góp: </p>
+                            <p>Lượt quyên góp: <%=numContribute%> (lượt)</p>
+                            <p>Tổng số tiền đã quyên góp: <%=total.toLocaleString('vi', {style : 'currency' ,
+                                currency : 'VND' })%> </p>
                             <button type="button" class="btn" style="border-color:#a50064; color:#a50064; background-color:#FFFFFF; border: radius 2rem !important;" data-bs-toggle="modal"
                                 data-bs-target="#changePass"> Đổi mật khẩu </button>
                         </div>
