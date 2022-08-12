@@ -9,6 +9,8 @@ const router = express.Router();
 router.get('/', userController.getIndex);
 router.get('/project/:projId',userController.getDetails);
 router.post('/quyengop',isAuth,userController.postQuyengop);
+router.get('/profile',isAuth,userController.getProfile);
+router.post('/changepass',isAuth,userController.postChangepass);
 
 // router.get('/products', shopController.getProducts);
 

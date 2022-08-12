@@ -1,6 +1,5 @@
-const fs = require('fs');
+const bcrypt = require('bcryptjs');
 const path = require('path');
-const PDFdocument = require('pdfkit');
 const Project = require('../models/project');
 const User = require('../models/user');
 const Contribute = require('../models/contribute');
@@ -61,7 +60,62 @@ const ITEMS_PER_PAGE =12;
 //       return next(error);
 //     });
 // };
+exports.getProfile = (req,res,next)=>{
+  const  message = req.flash('message')[0];
+  const errors = req.flash('error')[0];
+  console.log(errors);
+  res.render('user/profile',{
+    path: '/profile',
+    pageTitle: 'Trang cá nhân',
+    user: req.user,
+    validationErrors:[],
+    errorMessage:errors,
+    message: message,
+  })
+}
+exports.postChangepass =(req,res,next)=>{
+  
+  const pass_ = req.user.password;
+  const pass = req.body.pass.trim(); 
+  const password = req.body.password.trim(); 
+  const confirmPassword = req.body.confirmPassword.trim();
+  if(password.length <5){
+    req.flash('error','Mật khẩu mới quá ngắn');
+    return res.redirect('/profile');
+  }
 
+  else if ( password !== confirmPassword ){
+    req.flash('error','Mật khẩu mới không khớp');
+    return res.redirect('/profile');
+  }
+  else{
+    bcrypt
+    .compare(pass,pass_)
+    .then(doMatch => {
+      if (doMatch){
+        bcrypt
+        .hash(password, 12)
+        .then(hashedPassword =>{
+          User.findByIdAndUpdate(req.user._id,{password: hashedPassword})
+          .then(result =>{
+            req.flash('message','Cập nhật mật khẩu thành công');
+             res.redirect('/profile');
+          })
+          .catch( err => {
+            req.flash('error','Lỗi cập nhật mật khẩu');
+            res.redirect('/profile');
+          })
+        })
+      } else{
+        req.flash('error','Mật khẩu hiện tại không đúng');
+        res.redirect('/profile')
+      }
+      
+  })
+}
+
+
+}
 exports.getIndex = (req, res, next) => {
   const page = +req.query.page||1;
   let totalItems;

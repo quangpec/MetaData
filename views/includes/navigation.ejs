@@ -45,6 +45,11 @@
                         d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
                 </svg> sign Up </a>
             <% }else {%>
+                <a href="/profile" class="nav-link" style="color:#a50064;">
+                    
+                        <img src="/images/Avatar.jpg" class="img-fluid img-thumbnail" alt="Trang cá nhân" style="border-radius: 50%; width: 35px; border: #a50064;">
+                      
+                 </a>
                 <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn-link" style="background-color: Transparent; color:#a50064;
