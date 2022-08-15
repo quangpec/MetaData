@@ -50,3 +50,12 @@ input[type="file"] {
   padding: 6px 12px;
   cursor: pointer;
 }
+td.verified{
+  color: #32a852;
+}
+td.block{
+  color: #FF0000;
+}
+td.waiting{
+  color:  #FFCC00;
+}

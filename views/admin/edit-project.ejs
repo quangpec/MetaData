@@ -38,14 +38,14 @@
                                     <input
                                         class="form-control <%= validationErrors.find(e => e.param === 'startDate') ? 'invalid' : '' %>"
                                         type="date" name="startDate" id="startDate"
-                                        value="<% if ((editing || hasError)&& project.startDate!=='') { %><%= project.startDate.toISOString().slice(0, 10) %><% } %>">
+                                        value="<% if ((editing)&& project.startDate!=='') { %><%= project.startDate.toISOString().slice(0, 10) %><% } if(hasError) {%><%=project.startDate%><%}%>">
                                 </div>
                                 <div class="form-group">
                                     <label for="endDate">Ngày kết thúc</label>
                                     <input
                                         class="form-control <%= validationErrors.find(e => e.param === 'endDate') ? 'invalid' : '' %>"
                                         type="date" name="endDate" id="endDate"
-                                        value="<% if ((editing || hasError )&& project.endDate !=='') { %><%= project.endDate.toISOString().slice(0, 10) %><% } %>">
+                                        value="<% if ((editing)&& project.startDate!=='') { %><%= project.endDate.toISOString().slice(0, 10) %><% } if(hasError) {%><%=project.endDate%><%}%>">
                                 </div>
                                 <div class="form-group">
                                     <label for="target">Mục tiêu</label>

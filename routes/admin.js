@@ -23,7 +23,7 @@ router.post(
     [
       body('title')
         .isString()
-        .isLength({ min: 3 })
+        .isLength({ min: 5 })
         .trim(),
       body('target').isFloat(),
       body('description')

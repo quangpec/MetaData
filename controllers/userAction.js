@@ -5,7 +5,7 @@ const User = require('../models/user');
 const Contribute = require('../models/contribute');
 const mongodb = require('mongodb');
 const ObjectId = mongodb.ObjectId;
-const ITEMS_PER_PAGE =12;
+const ITEMS_PER_PAGE =9;
 
 // exports.getProducts = (req, res, next) =>{
 //   const page = +req.query.page||1;

@@ -53,6 +53,8 @@ exports.getAddProject = (req, res, next) => {
 };
 
 exports.postAddProject = (req, res, next) => {
+  const errors = validationResult(req);
+  console.log('lỗi',!errors.isEmpty());
   const title = req.body.title;
   const image = req.file;
   const target = req.body.target;
@@ -76,10 +78,12 @@ exports.postAddProject = (req, res, next) => {
       validationErrors: []
     });
   }
-  const errors = validationResult(req);
-  console.log(errors);
+  // const errors = validationResult(req);
+  // console.log(errors);
 
   if (!errors.isEmpty()) {
+    console.log(endDate)
+
     return res.status(422).render('admin/edit-project', {
       pageTitle: 'Add Project',
       path: '/admin/add-project',
@@ -212,6 +216,7 @@ exports.postEditProject = (req, res, next) => {
 };
 
 exports.getProjects = (req, res, next) => {
+  const ITEMS_PER_PAGE = 5;
   const keyWord = req.query.keyWord || '';
   const status = req.query.status || ['waiting', 'runing', 'stop'];
   const target = req.query.target || '';
