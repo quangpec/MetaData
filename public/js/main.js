@@ -14,7 +14,6 @@ const reporter = {
   },
 
   event: function (eventCode, message) {
-    console.log(eventCode);
     const isReady = this.socket && this.socket.readyState === WebSocket.OPEN;
     if (isReady) { // Messages triggered before the WebSocket is ready are ignored
       this.socket.send(JSON.stringify({ eventCode: eventCode, message: message }));
@@ -46,3 +45,7 @@ $(document).ready(function() {
     }
   });
 });
+
+// function fomatNumber(number){
+//   return number.toLocaleString()
+// }

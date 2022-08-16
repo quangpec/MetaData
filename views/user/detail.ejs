@@ -5,13 +5,13 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
             <main class="centered">
-                <div class=" row col-12 col-md-10" style="margin: auto;">
-                    <blockquote class="blockquote text-center mt-3">
-                        <p class="mb-0" style="font-size: 1.8rem;
+                <div class=" row col-12 col-md-8" style="margin: auto;">
+                    <blockquote class="blockquote mt-3">
+                        <p class="mb-0" style="font-size: 1.8rem; padding-top:3rem;
                         line-height: 2.5rem; font-weight: 500; font-family: Nunito,Arial,sans-serif; color:#a50064">
                             <%= project.title %>
                         </p>
-                        <footer class="blockquote-footer">Có điều kỳ diệu xảy đến với những người thực sự biết yêu
+                        <footer class="blockquote-footer" style="padding-bottom:3rem;">Có điều kỳ diệu xảy đến với những người thực sự biết yêu
                             thương: họ càng cho nhiều, họ càng có nhiều. <cite title="Source Title">– Rainer Maria
                                 Rilke</cite></footer>
                     </blockquote>
@@ -72,6 +72,7 @@
                                             class="<%= validationErrors.find(e => e.param === 'contributionAmount') ? ' form-control invalid' : 'form-control' %>"
                                             placeholder="<%=(1000000).toLocaleString('vi', {style : 'currency' , currency : 'VND' }) %>"
                                             value="" style="color:#a50064; border-color: #a50064; border-radius:0.2em;">
+                                            <small  class="form-text text-muted" id ='targetString'></small>
                                     </div>
                                     <div class="form-group">
                                         <label for="message"> Lời nhắn gửi</label>
@@ -133,4 +134,5 @@
 
 
             </main>
+            <script src="/js/detail.js"></script>
             <%- include('../includes/end.ejs') %>
