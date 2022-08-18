@@ -95,4 +95,6 @@ router.post('/addusers',[
 
 router.post('/listAddusers',isAuth,isAdmin, adminController.postlistAddusers);
 
+router.get('/contribute',isAuth,isAdmin, adminController.getContribute);
+
 module.exports = router;

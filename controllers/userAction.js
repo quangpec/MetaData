@@ -179,6 +179,10 @@ exports.getDetails =(req,res,next)=>{
       validationErrors: [],
       });
   })
+  .catch(err => {
+    //ko ton tại id
+    res.redirect('/');
+  })
 }
 exports.postQuyengop = (req,res,next)=>{
   const userId = req.user._id;

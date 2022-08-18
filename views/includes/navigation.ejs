@@ -25,6 +25,9 @@
                 <li class="nav-link <%=path === '/admin/users' ? 'active' : '' %>">
                     <a class="nav-link" href="/admin/users">Quản lý người dùng </a>
                 </li>
+                <li class="nav-link <%=path === '/admin/contribute' ? 'active' : '' %>">
+                    <a class="nav-link" href="/admin/contribute">Quản lý quyên góp </a>
+                </li>
                 <%}%>
         </ul>
         <% if (!isAuthenticated) { %>

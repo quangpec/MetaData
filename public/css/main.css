@@ -72,9 +72,9 @@ button.btn-seemore:hover{
   display: block !important;
   display: -webkit-box;
  max-width: 100%;
- height: 148px;
+ height: 14.5rem;
  margin: 0 auto;
- line-height: 2 rem;
+ line-height: 2rem;
  -webkit-line-clamp: 7;
  -webkit-box-orient: vertical;
  overflow: hidden;

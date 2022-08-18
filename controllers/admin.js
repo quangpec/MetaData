@@ -1,10 +1,13 @@
 const Project = require('../models/project');
+const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
 const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const fileHelper = require('../util/file');
 const { mailNotification } = require('../util/sendmail');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const Contribute = require('../models/contribute');
 const ITEMS_PER_PAGE = 5;
 
 exports.getFilter = (req, res, next) => {
@@ -54,7 +57,7 @@ exports.getAddProject = (req, res, next) => {
 
 exports.postAddProject = (req, res, next) => {
   const errors = validationResult(req);
-  console.log('lỗi',!errors.isEmpty());
+  console.log('lỗi', !errors.isEmpty());
   const title = req.body.title;
   const image = req.file;
   const target = req.body.target;
@@ -379,9 +382,9 @@ exports.getUsers = (req, res, next) => {
         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
         page: page,
         stt: stt,
-        validationErrors:[],
-        oldInput:{
-          email:'',
+        validationErrors: [],
+        oldInput: {
+          email: '',
         }
       })
     })
@@ -463,7 +466,7 @@ exports.postAddusers = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
-    req.flash('message',errors.array()[0].msg);
+    req.flash('message', errors.array()[0].msg);
     return res.status(422).redirect('/admin/users');
   }
   return bcrypt
@@ -509,43 +512,111 @@ exports.postAddusers = (req, res, next) => {
 exports.postlistAddusers = (req, res, next) => {
   const listMail = req.file.path;
 
-   fs.readFile(listMail, 'utf8', (err, data) => {
+  fs.readFile(listMail, 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return;
     }
     const list = data.split(/\r?\n/);
-    for(const email of  list){
-      if(email == ''){
+    for (const email of list) {
+      if (email == '') {
         continue;
       }
       const name = email;
       const password = Math.floor(Math.random() * (99999 - 10000) + 100000).toString();
-       bcrypt
-      .hash(password, 12)
-      .then(hashedPassword => {
-        const user = new User({
-          email: email,
-          password: hashedPassword,
-          name: name,
-          avatar: '',
-          permission: false,
-          startDate: new Date(),
-          status: 'verified',
-          confirmDate: new Date(),
-          otp: null,
-          tokenResetpass: {
-            token: null,
-            expires: null
-          }
-        });
-        user.save()
-        .then( result =>{
-          mailNotification(email,'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email +', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>' );
+      bcrypt
+        .hash(password, 12)
+        .then(hashedPassword => {
+          const user = new User({
+            email: email,
+            password: hashedPassword,
+            name: name,
+            avatar: '',
+            permission: false,
+            startDate: new Date(),
+            status: 'verified',
+            confirmDate: new Date(),
+            otp: null,
+            tokenResetpass: {
+              token: null,
+              expires: null
+            }
+          });
+          user.save()
+            .then(result => {
+              mailNotification(email, 'Chào mừng bạn đến với abc.com tài khoản của bạn là email :' + email + ', password:' + password + ' link đăng nhập : <a>https://myprojectnodejsx.herokuapp.com/login</a>');
+            })
         })
-      })  
     }
-   })
-   req.flash('message', 'Thêm người dùng thành công!');
-   res.redirect('/admin/users');
+  })
+  req.flash('message', 'Thêm người dùng thành công!');
+  res.redirect('/admin/users');
+}
+exports.getContribute = (req, res, next) => {
+  const page = +req.query.page || 1;
+  const projectId = req.query.projectId;
+  const userId = req.query.userId;
+  const conDate = req.query.conDate;
+  const stt = (page - 1) * ITEMS_PER_PAGE;
+  const query_data = {
+    $and: [
+      { status: { $regex: '', $options: 'i' }}
+    ]
+  };
+
+  if (conDate) {
+    const condate = new Date(req.query.conDate);
+    const valueDate = condate.valueOf() + 24 * 60 * 60 * 1000;
+    const maxDate = new Date(valueDate);
+    query_data.$and.push({ conDate: { $gte: condate, $lt: maxDate } });
+  }
+  if (projectId) {
+    query_data.$and.push({ projectId: projectId.trim() })
+  }
+  if (userId) {
+    query_data.$and.push({ userId: userId.trim() })
+  }
+  let totalItems;
+  Contribute.find(query_data)
+    //{ $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }
+    .countDocuments()
+    .then(numCon => {
+      totalItems = numCon;
+      return Contribute.find(query_data)
+        .sort({ conDate: 1 })
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
+    .then(contribute => {
+      res.render('admin/contribute', {
+        contribute: contribute,
+        pageTitle: 'Quản lý quyên góp',
+        path: '/admin/contribute',
+        totalProjects: totalItems,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+        page: page,
+        stt: stt
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return res.render('admin/contribute', {
+        contribute: [],
+        pageTitle: 'Quản lý quyên góp',
+        path: '/admin/contribute',
+        totalProjects: totalItems,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+        page: page,
+        stt: stt
+      });
+    });
 }
