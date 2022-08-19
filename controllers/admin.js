@@ -299,15 +299,7 @@ exports.postDelManyProject = (req, res, next) => {
       if (!projects) {
         return next(new Error('Project not found.'));
       }
-      try {
-        for (const project of projects) {
-          fileHelper.deleteFile(project.imageUrl);
-        }
-      }
-      catch (err) {
-        console.log('err');
-      }
-      return Project.deleteMany({ _id: arrId });
+      return Project.updateMany({ _id: arrId },{status:'DELETE'});
     })
     .then(() => {
       console.log('DESTROYED PROJECT');
@@ -327,13 +319,7 @@ exports.postDeleteProject = (req, res, next) => {
       if (!project) {
         return next(new Error('Project not found.'));
       }
-      try {
-        fileHelper.deleteFile(project.imageUrl);
-      }
-      catch (err) {
-        console.log('err');
-      }
-      return Project.deleteOne({ _id: prodId });
+      return Project.updateOne({ _id: prodId },{status:'DELETE'});
     })
     .then(() => {
       console.log('DESTROYED PROJECT');
@@ -350,7 +336,7 @@ exports.getUsers = (req, res, next) => {
   const message = req.flash('message')[0];
   const ITEMS_PER_PAGE = 30;
   const keyWord = req.query.keyWord || ''.trim();
-  const status = req.query.status || '';
+  const status = req.query.status || {$nin: ['DELETE']};
   const startDate = req.query.startDate || 0;
   const page = +req.query.page || 1;
   const stt = (page - 1) * ITEMS_PER_PAGE;
@@ -358,11 +344,11 @@ exports.getUsers = (req, res, next) => {
 
   const del = req.flash('delele')[0];
   const upd = req.flash('update')[0];
-  User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
+  User.find({ $and: [{ status: status }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
     .countDocuments()
     .then(numProjects => {
       totalItems = numProjects;
-      return User.find({ $and: [{ status: { $regex: status, $options: 'i' } }, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
+      return User.find({ $and: [{ status:status}, { startDate: { $gte: startDate } }, { $or: [{ email: { $regex: keyWord, $options: 'i' } }, { name: { $regex: keyWord, $options: 'i' } }] }] })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -403,7 +389,7 @@ exports.postDelUser = (req, res, next) => {
       req.flash('delele', 'ko thành công');
       return res.redirect('/admin/users');
     })
-  User.findOneAndDelete({ _id: userId })
+  User.findOneAndUpdate({ _id: userId },{status:'DELETE'})
     .then(() => {
       console.log('DESTROYED PROJECT');
       req.flash('delele', 'đã xóa thành công');
@@ -445,7 +431,7 @@ exports.postdelManyusers = (req, res, next) => {
       for (let user of users) {
         mailNotification(user.email, 'Thông báo tài khoản của bạn bị xóa vào lúc ' + new Date() + ' trân trọng thông báo');
       }
-      return User.deleteMany({ _id: arrId });
+      return User.updateMany({ _id: arrId },{status: 'DELETE'});
     })
     .then(() => {
       console.log('DESTROYED PROJECT');

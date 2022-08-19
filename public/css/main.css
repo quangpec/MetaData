@@ -91,3 +91,7 @@ button.btn-seemore:hover{
 .collapse.show .collapseText{
   color: #000000;
  }
+ a.btn-edit:hover{
+  color: #fdf2f8!important;
+  background-color: #ffffff;
+ }

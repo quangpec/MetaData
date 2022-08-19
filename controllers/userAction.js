@@ -142,7 +142,7 @@ exports.getIndex = (req, res, next) => {
     .countDocuments()
     .then(numProject => {
       totalItems = numProject;
-      return Project.find()
+      return Project.find({status: { $nin: ['DELETE']}})
         .sort({startDate:1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
