@@ -168,7 +168,12 @@ exports.getIndex = (req, res, next) => {
     });
 };
 exports.getDetails =(req,res,next)=>{
-  user = req.user;
+let permission;
+  if(req.user){
+   permission = req.user.permission;
+  }else{
+    permission = false;
+  }
   const projId = req.params.projId;
   Project.findById(projId)
   .then( project =>{
@@ -177,6 +182,7 @@ exports.getDetails =(req,res,next)=>{
       pageTitle: project.title,
       project: project,
       validationErrors: [],
+      permission:permission
       });
   })
   .catch(err => {

@@ -5,7 +5,7 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
             <main class="centered">
-                <%if(user.permission){%>
+                <%if(permission){%>
                     <div class="position-fixed " style="right:3%; bottom:60%; width: 40px;">
                         <div class="col" style="padding: 0px; text-align: center; margin: auto; min-height: 70px;">
                             <a href="/admin/edit-project/<%= project._id %>?edit=true" class="btn btn-link btn-edit" style="padding: 0px; color: #6e706d!important;">
