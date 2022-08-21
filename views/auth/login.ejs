@@ -6,13 +6,13 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
 
-            <main>
+            <main style=" background-image:url(https://static.mservice.io/jk/momo2020/img/magazine/background-blog-soju-2.svg); padding:50px;">
                 <% if (errorMessage) { %>
                     <div class="alert alert-danger">
                         <%= errorMessage %>
                     </div>
                     <% } %>
-                        <div style="max-width:350px; margin: auto ">
+                        <div  style="max-width:350px; margin: auto; padding: 25px; border-radius: 15px; ">
                             <form action="/login" method="POST" novalidate>
                                 <div class="form-group">
                                     <label for="email">Email address</label>
@@ -56,7 +56,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-secondary"
+                                                    <button type="submit" class="btn btn-primary"
                                                         data-bs-dismiss="modal">Lấy lại mật khẩu</button>
                                                 </div>
                                             </form>

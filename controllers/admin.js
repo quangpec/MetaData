@@ -8,7 +8,7 @@ const { mailNotification } = require('../util/sendmail');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const Contribute = require('../models/contribute');
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 20;
 
 exports.getFilter = (req, res, next) => {
 
