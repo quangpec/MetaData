@@ -18,11 +18,11 @@ h5.card-title:hover {
 }
 div.card-footer{
  background-color: #ffffff;
- border-radius:0rem 0rem 1rem 1rem !important;
+ border-radius:0rem 0rem 0.75rem 0.75rem !important;
 }
 div.card{
     border-radius:1rem;
 }
 div.card img{
-    border-radius:1rem 1rem 0rem 0rem;
+    border-radius:0.75rem 0.75rem 0rem 0rem;
 }

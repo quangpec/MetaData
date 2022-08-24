@@ -95,6 +95,7 @@
                                             </div>
                                         </div>
                                         <form action="/quyengop" method="POST" novalidate>
+                                            <%if(project.status=='runing' && project.totalAmountRaised/project.target*100<100){%>
                                             <div class="form-group">
                                                 <label for="contributionAmount">Số tiền</label>
                                                 <input type="number" name="contributionAmount" id="contributionAmount"
@@ -115,25 +116,37 @@
                                                 <input class="form-check-input selectElement" type="checkbox" value=""
                                                     id="check_hine" /> Quyên góp ẩn danh
                                             </div>
+                                            <%}%>
                                             <input type="hidden" name="projId" value="<%= project._id %>">
 
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                             <%if(project.status=='stop'){%>
-                                                <div class="btn btn-primary btn-block"
-                                                    style=" margin: auto; color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
+                                                <div class="btn btn-primary btn-block btn-quyenGop"
+                                                    style="
+                                                     background-color:#f5f8f2 !important;
+                                                      border-color: #6e706d!important;
+                                                       color:#6e706d; ">
                                                     Ngưng nhận tiền
                                                 </div>
                                                 <%}else if(project.totalAmountRaised/project.target*100>=100) {%>
-                                                    <div type="text" class="btn btn-primary btn-block"
-                                                        style="color: #f8f9fa; background-color:#f5f8f2 !important; border-color: #6e706d!important; color:#6e706d; border-radius:5em;">
+                                                    <div type="text" class="btn btn-primary btn-block btn-quyenGop"
+                                                        style="
+                                                        background-color:#f5f8f2 !important; 
+                                                        border-color: #6e706d!important; 
+                                                        color:#6e706d; ">
                                                         Đạt Mục tiêu</div>
                                                     <%}else if(project.startDate> new Date()){%>
-                                                        <div class="btn btn-primary btn-block"
-                                                            style="background-color:#ffe8df !important; color: #fb923c !important; border-color: #fb923c!important;;border-radius:5rem;">
+                                                        <div class="btn btn-primary btn-block btn-quyenGop"
+                                                            style="background-color:#ffe8df !important; 
+                                                            color: #fb923c !important;
+                                                             border-color: #fb923c!important;">
                                                             Coming soon</div>
                                                         <%}else{%>
-                                                            <button type="submit" class="btn btn-primary btn-block"
-                                                                style="color: #f8f9fa; background-color: #a50064; border-color: #a50064;border-radius:0.2em;">
+                                                            <button type="submit" class="btn btn-primary btn-block btn-quyenGop"
+                                                                style="color: #f8f9fa;
+                                                                 background-color: #a50064;
+                                                                  border-color: #a50064;
+                                                                  ">
                                                                 Quyên góp</button>
                                                             <%}%>
                                         </form>
