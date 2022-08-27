@@ -140,11 +140,17 @@ div.btn-quyenGop {
   font-size: 0.7rem;
   border-radius: 0.5rem;
 }
+.btn-totop{
+  color: #e5e5e5 !important;;
+  background-color: #a50064 !important;
+}
 button.btn-totop:focus{
   border: #e5e5e5 !important;
   border-color: #e5e5e5 !important;
+  outline:0rem;
 }
 button.btn-totop:focus-visible{
   border: #e5e5e5 !important;
   border-color: #e5e5e5 !important;
+  outline:0rem;
 }
