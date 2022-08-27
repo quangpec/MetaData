@@ -136,6 +136,7 @@ exports.postChangepass =(req,res,next)=>{
 
 }
 exports.getIndex = (req, res, next) => {
+  user = req.user;
   const page = +req.query.page||1;
   let totalItems;
   Project.find()
@@ -149,6 +150,7 @@ exports.getIndex = (req, res, next) => {
     })
     .then(projects => {
       res.render('user/index', {
+        user: user,
         projs: projects,
         pageTitle: 'Home',
         path: '/',
