@@ -13,6 +13,7 @@ const ITEMS_PER_PAGE = 20;
 exports.getFilter = (req, res, next) => {
 
   res.render('admin/filter', {
+    user:req.user,
     pageTitle: 'Bộ lọc tùy chỉnh',
     path: '/admin/filter',
   })
@@ -46,6 +47,7 @@ exports.postUploadfile = (req, res, next) => {
 }
 exports.getAddProject = (req, res, next) => {
   res.render('admin/edit-project', {
+    user:req.user,
     pageTitle: 'Add Project',
     path: '/admin/add-project',
     editing: false,
@@ -66,6 +68,7 @@ exports.postAddProject = (req, res, next) => {
   const startDate = req.body.startDate;
   if (!image) {
     return res.status(422).render('admin/edit-project', {
+      user:req.user,
       pageTitle: 'Add Project',
       path: '/admin/add-project',
       editing: false,
@@ -88,6 +91,7 @@ exports.postAddProject = (req, res, next) => {
     console.log(endDate)
 
     return res.status(422).render('admin/edit-project', {
+      user:req.user,
       pageTitle: 'Add Project',
       path: '/admin/add-project',
       errorMessage: errors.array()[0].msg,
@@ -141,6 +145,7 @@ exports.getEditProject = (req, res, next) => {
         return res.redirect('/');
       }
       res.render('admin/edit-project', {
+        user:req.user,
         pageTitle: 'Edit project',
         path: '/admin/edit-project',
         editing: editMode,
@@ -267,6 +272,7 @@ exports.getProjects = (req, res, next) => {
     })
     .then(projects => {
       res.render('admin/projects', {
+        user:req.user,
         del: del,
         prods: projects,
         pageTitle: 'Admin Projects',
@@ -354,6 +360,7 @@ exports.getUsers = (req, res, next) => {
     })
     .then(users => {
       res.render('admin/users', {
+        user:req.user,
         pageTitle: 'Quản lý users',
         path: '/admin/users',
         users: users,
@@ -575,6 +582,7 @@ exports.getContribute = (req, res, next) => {
     })
     .then(contribute => {
       res.render('admin/contribute', {
+        user:req.user,
         contribute: contribute,
         pageTitle: 'Quản lý quyên góp',
         path: '/admin/contribute',
@@ -592,6 +600,7 @@ exports.getContribute = (req, res, next) => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return res.render('admin/contribute', {
+        user:req.user,
         contribute: [],
         pageTitle: 'Quản lý quyên góp',
         path: '/admin/contribute',

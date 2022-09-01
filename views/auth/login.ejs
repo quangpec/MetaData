@@ -26,6 +26,7 @@
                                     value="<%= oldInput.password %>"
                                         placeholder="Password">
                                 </div>
+                                <input type="hidden" name ='oldPath' value="<%=oldPath%>">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button type="submit"  class="btn btn-primary btn-block">Đăng nhập</button>
                             </form>

@@ -94,6 +94,7 @@
                                                 </p>
                                             </div>
                                         </div>
+                                        <%if(permission){%>
                                         <form action="/quyengop" method="POST" novalidate>
                                             <%if(project.status=='runing' && project.totalAmountRaised/project.target*100<100){%>
                                             <div class="form-group">
@@ -150,6 +151,13 @@
                                                                 Quyên góp</button>
                                                             <%}%>
                                         </form>
+                                        <%}else{%>
+                                            <a class="btn btn-primary btn-block btn-quyenGop"
+                                            style="color: #f8f9fa!important;background-color: #a50064;border-color: #a50064;"
+                                             href="/login?path=<%=path%>">
+                                                Đăng nhập để quyên góp
+                                            </a>
+                                            <%}%>
 
                                     </div>
                                     <div class="card-footer">

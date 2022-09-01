@@ -180,11 +180,12 @@ let permission;
   Project.findById(projId)
   .then( project =>{
     res.render('user/detail', {
-      path: '/details',
+      path: '/project/'+project._id,
       pageTitle: project.title,
       project: project,
       validationErrors: [],
-      permission:permission
+      permission:permission,
+      user:req.user
       });
   })
   .catch(err => {

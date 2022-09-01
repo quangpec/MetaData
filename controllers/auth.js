@@ -46,6 +46,8 @@ exports.getAccuracy = (req, res, next) => {
   });
 }
 exports.getLogin = (req, res, next) => {
+  const oldPath =req.query.path;
+  console.log(oldPath);
   let message = req.flash('error');
   if (req.session.isLoggedIn == true) {
     res.redirect('/');
@@ -56,6 +58,7 @@ exports.getLogin = (req, res, next) => {
     message = null;
   }
   res.render('auth/login', {
+    oldPath: oldPath,
     path: '/login',
     pageTitle: 'Login',
     errorMessage: message,
@@ -88,12 +91,14 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
+  const oldPath = req.body.oldPath;
   const email = req.body.email;
   const password = req.body.password;
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/login', {
+      oldPath:oldPath,
       path: '/login',
       pageTitle: 'Login',
       errorMessage: errors.array()[0].msg,
@@ -109,6 +114,7 @@ exports.postLogin = (req, res, next) => {
     .then(user => {
       if (!user) {
         return res.status(422).render('auth/login', {
+          oldPath: oldPath,
           path: '/login',
           pageTitle: 'Login',
           errorMessage: 'Invalid email or password.',
@@ -126,6 +132,7 @@ exports.postLogin = (req, res, next) => {
         console.log('otp:' + otp);
         sendmail(user.email, otp);
         return res.render('auth/accuracy', {
+          oldPath: oldPath,
           path: '/accuracy',
           pageTitle: 'Accuracy',
           resend: false,
@@ -141,11 +148,12 @@ exports.postLogin = (req, res, next) => {
             req.session.user = user;
             return req.session.save(err => {
               console.log(err);
-              res.redirect('/');
+              res.redirect(oldPath);
             });
           }
           if (doMatch && user.status == 'block') {
             return res.status(422).render('auth/login', {
+              oldPath:oldPath,
               path: '/login',
               pageTitle: 'Login',
               errorMessage: 'Tài khoản đã bị vô hiệu',
@@ -158,6 +166,7 @@ exports.postLogin = (req, res, next) => {
 
           }
           return res.status(422).render('auth/login', {
+            oldPath: oldPath,
             path: '/login',
             pageTitle: 'Login',
             errorMessage: 'Invalid email or password.',
