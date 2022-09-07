@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
     secure: false, // true for 465, false for other ports
     auth: {
       user: 'quanglnFX13841@funix.edu.vn', // generated ethereal user
-      pass: 'La242119@', // generated ethereal password
+      pass: '********', // generated ethereal password
     },
   });
   async function main(email,otp) {
